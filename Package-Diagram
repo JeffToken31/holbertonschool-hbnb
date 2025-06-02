@@ -1,0 +1,25 @@
+classDiagram
+    %% Présentation
+    class PresentationLayer {
+        <<Interface>>
+        +ServiceAPI
+    }
+
+    %% Domaine Métier
+    class BusinessLogicLayer {
+        +ServicesApp
+        +Basemodel
+        +UserService
+        +PlaceService
+        +ReviewService
+        +AmenityService
+    }
+
+    %% Accès aux Données
+    class PersistenceLayer {
+        +DatabaseAccess
+    }
+
+        %% Relations
+    PresentationLayer --> BusinessLogicLayer : FacadePattern (viaServicesApp)
+    BusinessLogicLayer --> PersistenceLayer : DatabaseOperations
