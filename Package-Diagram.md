@@ -1,3 +1,4 @@
+```mermaid
 classDiagram
     %% Présentation
     class PresentationLayer {
@@ -20,6 +21,7 @@ classDiagram
         +DatabaseAccess
     }
 
-        %% Relations
-    PresentationLayer --> BusinessLogicLayer : FacadePattern (viaServicesApp)
-    BusinessLogicLayer --> PersistenceLayer : DatabaseOperations
+    %% Relations
+    PresentationLayer --> BusinessLogicLayer : Facade Pattern (via ServicesApp)
+    BusinessLogicLayer --> PersistenceLayer : Database Operations
+```
