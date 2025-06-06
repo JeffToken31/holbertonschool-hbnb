@@ -47,12 +47,15 @@ This documentation describes the flow and components involved when a new user re
 sequenceDiagram
 participant User
 participant API
+participant BusinessFacade
 participant BusinessLogic
 participant Database
 
-User->>API: API Call (e.g., Register User)
-API->>BusinessLogic: Validate and Process Request
-BusinessLogic->>Database: Save Data
+User->>API: Register (firstname, lastname, email, password)
+API->>BusinessFacade: Forward Registration Request
+BusinessFacade->>BusinessLogic: Validate and Process User Data
+BusinessLogic->>Database: Insert New User Record
 Database-->>BusinessLogic: Confirm Save
-BusinessLogic-->>API: Return Response
-API-->>User: Return Success/Failure
+BusinessLogic-->>BusinessFacade: Return Status
+BusinessFacade-->>API: Return Success or Error
+API-->>User: Registration Confirmation
