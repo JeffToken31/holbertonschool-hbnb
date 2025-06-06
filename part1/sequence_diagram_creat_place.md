@@ -44,14 +44,15 @@ This documentation describes the components involved in the process of creating 
 sequenceDiagram
 participant User
 participant API
+participant BusinessFacade
 participant BusinessLogic
 participant Database
 
 User->>API: Create Place (title, description, price, etc.)
-API->>BusinessLogic: Validate and Process Place Data
+API->>BusinessFacade: Forward Place Creation Request
+BusinessFacade->>BusinessLogic: Validate and Process Place Data
 BusinessLogic->>Database: Insert New Place Record
 Database-->>BusinessLogic: Confirm Save
-BusinessLogic-->>API: Return Success or Error
+BusinessLogic-->>BusinessFacade: Return Status
+BusinessFacade-->>API: Return Success or Error
 API-->>User: Place Created Confirmation
-```
-
