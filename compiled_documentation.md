@@ -4,6 +4,7 @@
 This document is the technical guide for the **HBnB project**, which is a clone of the Airbnb platform.
 It explains how the app is structured, how the different parts connect, and how it works step-by-step.
 This documentation is here to guide the development and make sure everyone working on the project understands the system.
+
 ---
 ## 📦 High-Level Architecture
 ```mermaid
@@ -125,6 +126,7 @@ There’s no inheritance or shared model — each service is built independently
 
 Each of the following diagrams shows what happens during a specific API request.
 We go step-by-step from user input to the system’s response.
+
 ---
 ### 1. User Registration
 ```mermaid
