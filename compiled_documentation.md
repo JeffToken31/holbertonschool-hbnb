@@ -1,5 +1,6 @@
 # 🏠 HBnB – Project Technical Documentation
 ## 📘 Introduction
+
 This document is the technical guide for the **HBnB project**, which is a clone of the Airbnb platform.
 It explains how the app is structured, how the different parts connect, and how it works step-by-step.
 This documentation is here to guide the development and make sure everyone working on the project understands the system.
@@ -111,6 +112,7 @@ classDiagram
     Amenity --> Place : Amenity linked to one Place (association)
 ```
 ### ⚙️ Main Components
+
 - **`ServicesApp`**: Central access point for all services. It's like a control panel.
 - **`UserService`**: Manages user registration and login.
 - **`PlaceService`**: Handles everything related to places (create, update, list).
@@ -120,6 +122,7 @@ Each service handles its own type of data and talks to `DatabaseAccess` to save 
 There’s no inheritance or shared model — each service is built independently to keep things simple.
 ---
 ## 🔄 API Interaction Flow
+
 Each of the following diagrams shows what happens during a specific API request.
 We go step-by-step from user input to the system’s response.
 ---
@@ -211,6 +214,7 @@ API-->>User: Display List of Places
 - It queries the database and sends back a list of places that match the filters.
 ---
 ## ✅ Summary
+
 This document gives a full view of how the HBnB project works behind the scenes.
 We’ve seen how the system is split into layers, how services are organized, and how common requests are handled.
 The idea is to keep the logic clean and modular, so it’s easier to maintain and extend later.
