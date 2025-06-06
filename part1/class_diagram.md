@@ -10,7 +10,8 @@ The goal is to establish a clear data model using concepts such as inheritance, 
 
 ### 👤 User
 
-**Attributes**  
+**Attributes**
+
 - `ID`  
 - `firstname`  
 - `lastname`  
@@ -21,13 +22,15 @@ The goal is to establish a clear data model using concepts such as inheritance, 
 - `date_update`  
 - `is_admin`  
 
-**Methods**  
+**Methods**
+
 - `create_user()`  
 - `update_user()`  
 - `delete_user()`  
 - `list()`  
 
-**Relationships**  
+**Relationships**
+
 - A **User** owns one or more **Places**.  
 - A **User** writes **Reviews**.  
 
@@ -35,7 +38,8 @@ The goal is to establish a clear data model using concepts such as inheritance, 
 
 ### 📍 Place
 
-**Attributes**  
+**Attributes**
+
 - `ID`
 - `title`
 - `description`
@@ -46,13 +50,15 @@ The goal is to establish a clear data model using concepts such as inheritance, 
 - `amenities`
 - `reviews`
 
-**Methods**  
+**Methods**
+
 - `create_place()`
 - `update_place()`
 - `delete_place()`
 - `list()`
 
-**Relationships**  
+**Relationships**
+
 - A **Place** needs a **User** to be created (**aggregation**).
 - A **Place** can include multiple **Reviews** (**aggregation**).
 - A **Place** can have **Amenities** (**aggregation**).
@@ -62,6 +68,7 @@ The goal is to establish a clear data model using concepts such as inheritance, 
 ### ⭐ Amenity
 
 **Attributes**
+
 - `ID`
 - `name`
 - `description`
@@ -69,19 +76,22 @@ The goal is to establish a clear data model using concepts such as inheritance, 
 - `date_create`
 
 **Methods**
+
 - `create_amenity()`
 - `update_amenity()`
 - `delete_amenity()`
 - `list()`
 
 **Relationships**
+
 - An **Amenity** needs a **Place** to exist (**composition**).
 
 ---
 
 ### 📝 Review
 
-**Attributes**  
+**Attributes**
+
 - `ID`
 - `place`
 - `user`
@@ -90,18 +100,21 @@ The goal is to establish a clear data model using concepts such as inheritance, 
 - `date`
 
 **Methods**
+
 - `create_review()`
 - `update_review()`
 - `delete_review()`
 - `list()`
 
 **Relationships**
+
 - A **Review** is linked to a **Place**.
 - A **Review** is written by a **User**.
 
 ---
 
 ## Class Diagram (Mermaid)
+
 ```mermaid
 classDiagram
     class User {
@@ -130,6 +143,8 @@ classDiagram
         +float longitude
         +list<Amenity> amenities
         +list<Review> reviews
+        +datetime date_create
+        +datetime date_update
         +void create_place()
         +void update_place()
         +void delete_place()
@@ -143,6 +158,7 @@ classDiagram
         +float rating
         +string comment
         +datetime date
+        +datetime date_update
         +void create_review()
         +void update_review()
         +void delete_review()
@@ -169,6 +185,7 @@ classDiagram
     Amenity --> Place : Amenity linked to one Place (association)
 
 ```
+
 ## Conclusion
 
 The diagram provides a visual overview of the main entities in the project and the logical connections between them.

@@ -1,4 +1,4 @@
-# 📍 Situation 1 – Place Creation
+# 📍 Situation – Place Creation
 
 This documentation describes the components involved in the process of creating a new place in the application.
 
@@ -37,8 +37,9 @@ This documentation describes the components involved in the process of creating 
 
 6. **API Responds to User**  
    The API returns a final confirmation or error message to the user based on the result.
-   
+
 ## Create a place (Mermaid)
+
 ```mermaid
 sequenceDiagram
 participant User
@@ -53,3 +54,4 @@ Database-->>BusinessLogic: Confirm Save
 BusinessLogic-->>API: Return Success or Error
 API-->>User: Place Created Confirmation
 ```
+
