@@ -6,7 +6,7 @@ This project is a simple web backend built with Python. It uses a modular archit
 
 ## 🚀 How to Run the Project
 
-1. Clone the project.`git clone https://github.com/JeffToken31/hbnb.git`
+1. Clone the project.`git clone https://github.com/JeffToken31/holbertonschool-hbnb`
 
 2. (Optional) Create a virtual environment.`python -m venv venv`
 
