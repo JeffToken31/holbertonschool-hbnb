@@ -1,6 +1,5 @@
 from app.models.baseModel import BaseModel
 from app.models.users import User
-from app.persistence.repository import InMemoryRepository
 
 '''
 Place class inherite of base model and has amentity and review intance

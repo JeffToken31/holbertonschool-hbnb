@@ -19,50 +19,29 @@ class HBnBFacade:
 
         user = User(**user_data) # **is to destructurate a dict
         self.user_repo.add(user)
-        print(user)
-        return {
-        "message": "User added",
-        "user": self.user_repo.get(user.id)
-        
-    }, 201
+        return user
+
 
     def update_user(self, user_data):
         '''
         This function checks by uuid if user exist,
         return message and data of user
         '''
+
         user_id = user_data.get("id")
         user_exist = self.user_repo.get(user_id)
         if user_exist == None :
-            return {"error": "User don't exist"}, 401
+            return None
         self.user_repo.update(user_id, **user_data)
-        return {
-            "message": "User updated",
-            "user": self.user_repo.get(user_id)
-        }, 201
+        return user_exist
     
-    def delete_user(self, user_data):
-        '''
-        This function search user by id
-        and delet it
-        '''
-        user_id = user_data.get("id")
-        user_exist = self.user_repo.get(user_id)
-        if user_exist == None :
-            return {"error": "User don't exist"}, 401
-        self.user_repo.delete(user_id)
-        return {
-            "message": "User deleted",
-            "user": user_id
-        }
     
-    def list_user(self):
-        list_users = self.user_repo.get_all()
-        return {
-            "message": "List of users",
-            "User": list_users
-        }
-    
+    def get_user(self, user_id):
+        return self.user_repo.get(user_id)
+
+    def get_user_by_email(self, email):
+        return self.user_repo.get_by_attribute('email', email)
+
     # Placeholder method for fetching a place by ID
     def get_place(self, place_id):
         # Logic will be implemented in later tasks

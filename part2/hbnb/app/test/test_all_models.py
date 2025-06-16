@@ -109,9 +109,9 @@ def main():
     print("{} offers:\n{}".format(place, place.amenities[0]))
 
     place.add_amenity(amenity2)
-    print("{} offers:\n{}".format(owner, place.amenities[1]))
+    print("{} offers:\n{}".format(place, place.amenities[1]))
 
-    print("So, {} offers:".format(owner))
+    print("So, {} offers:".format(place))
     for ame in place.amenities:
         print(ame)
 
