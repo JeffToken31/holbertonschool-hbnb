@@ -24,11 +24,11 @@ def main():
     print("{} created !!!\n".format(owner))
 
     # Creation of places by owner
-    place = Place(title="Cozy Apartment", description="A nice place to stay", price=100, latitude=37.7749, longitude=-122.4194, owner=owner)
+    place = Place(title="Cozy Apartment", description="A nice place to stay", price=100.00, latitude=37.7749, longitude=-122.4194, owner=owner)
     print("Place created: {}".format(place))
     print("At: {}€ by night\n".format(place.created_at))
 
-    place2 = Place(title="Family's home", description="A nice place for family", price=200, latitude=135.7749, longitude=-54.4194, owner=owner)
+    place2 = Place(title="Family's home", description="A nice place for family", price=200.00, latitude=35.7749, longitude=-54.4194, owner=owner)
     print("Place created: {}".format(place2))
     print("At: {}€ by night\n".format(place2.created_at))
 
