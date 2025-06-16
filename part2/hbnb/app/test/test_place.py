@@ -3,8 +3,8 @@ from app.models.users import User
 from app.models.review import Review
 
 def test_place_creation():
-    owner = User(first_name="John", last_name="Doe", email="john.doe@example.com", password="password")
-    place = Place(title="Cozy Apartment", description="A nice place to stay", price=100, latitude=37.7749, longitude=-122.4194, owner=owner)
+    owner = User(first_name="John", last_name="Doe", email="john.doe@example.com")
+    place = Place(title="Cozy Apartment", description="A nice place to stay", price=100.00, latitude=37.7749, longitude=-122.4194, owner=owner)
 
     # Adding a review
     review = Review(text="Great stay!", rating=5, place=place, user=owner)
@@ -14,7 +14,7 @@ def test_place_creation():
     owner.add_review(review)
 
     assert place.title == "Cozy Apartment"
-    assert place.price == 100
+    assert place.price == 100.00
     assert len(place.reviews) == 1
     assert place.reviews[0].text == "Great stay!"
     print("Place creation and relationship test passed!")

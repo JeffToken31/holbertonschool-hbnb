@@ -3,24 +3,23 @@ from app.models.place import Place
 from app.models.users import User
 from app.models.amenities import Amenity
 """
-This module test Objects and their relations
+This module tests Objects and their relations
 """
 
 def main():
     """
-    This Function call all possibilities
-    to check models and theire relation
+    This Function calls all possibilities
+    to check models and their relations
     """
     # Creation of users
-    user = User(first_name="John", last_name="Doe", email="john.doe@example.com", password="password")
+    user = User(first_name="John", last_name="Doe", email="john.doe@example.com")
     assert user.first_name == "John"
     assert user.last_name == "Doe"
     assert user.email == "john.doe@example.com"
-    assert user.password == "password"
     assert user.is_admin is False
     print("{} created !!!\n".format(user))
 
-    owner = User(first_name="Jane", last_name="Poe", email="jane.poe@example.com", password="password2")
+    owner = User(first_name="Jane", last_name="Poe", email="jane.poe@example.com")
     print("{} created !!!\n".format(owner))
 
     # Creation of places by owner
@@ -32,7 +31,7 @@ def main():
     print("Place created: {}".format(place2))
     print("At: {}€ by night\n".format(place2.created_at))
 
-    # Creations of ammenities
+    # Creations of amenities
     amenity = Amenity(name="Wi-Fi")
     assert amenity.name == "Wi-Fi"
     print("Amenity creation test passed!")
@@ -75,47 +74,45 @@ def main():
     # Check relation user/place, user/review
 
     owner.add_place(place)
-    print("{} have:\n{}".format(owner, owner.places[0]))
+    print("{} has:\n{}".format(owner, owner.places[0]))
 
     owner.add_place(place2)
-    print("{} have:\n{}".format(owner, owner.places[1]))
+    print("{} has:\n{}".format(owner, owner.places[1]))
 
-    print("So, {} have:".format(owner))
+    print("So, {} has:".format(owner))
     for plc in owner.places:
         print(plc)
 
-
     user.add_review(review)
-    print("{} have writed:\n{}".format(user, user.reviews[0]))
+    print("{} wrote:\n{}".format(user, user.reviews[0]))
 
     user.add_review(review2)
-    print("{} have writed:\n{}".format(user, user.reviews[1]))
+    print("{} wrote:\n{}".format(user, user.reviews[1]))
 
-    print("So, {} have posted:".format(user))
+    print("So, {} has posted:".format(user))
     for rev in user.reviews:
         print(rev)
-    
 
     # Check relation place/review, place/amenities
 
     place.add_review(review)
-    print("{} has receveid:\n{}".format(place, place.reviews[0]))
+    print("{} has received:\n{}".format(place, place.reviews[0]))
 
     place.add_review(review2)
-    print("{} has receveid:\n{}".format(owner, place.reviews[1]))
+    print("{} has received:\n{}".format(owner, place.reviews[1]))
 
-    print("So, {} has receveid:".format(owner))
+    print("So, {} has received:".format(owner))
     for rev in place.reviews:
-        print(plc)
-
+        print(rev)
 
     place.add_amenity(amenity)
-    print("{} purpose:\n{}".format(place, place.amenities[0]))
+    print("{} offers:\n{}".format(place, place.amenities[0]))
 
     place.add_amenity(amenity2)
-    print("{} purpose:\n{}".format(owner, place.amenities[1]))
+    print("{} offers:\n{}".format(owner, place.amenities[1]))
 
-    print("So, {} purpose:".format(owner))
+    print("So, {} offers:".format(owner))
     for ame in place.amenities:
         print(ame)
+
 main()
