@@ -28,9 +28,58 @@ class TestUserEndpoints(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
     
     def test_list_users_by_id(self):
-        response = self.client.get('/api/v1/users/<user_id>')
+        user = self.client.post('/api/v1/users/', json={
+            "first_name": "Jan",
+            "last_name": "Goe",
+            "email": "jan.goe@example.com"
+        })
+        self.assertEqual(user.status_code, 201)
+        user_uniq = user.get_json()
+        user_id = user_uniq['id']
+        response = self.client.get(f'/api/v1/users/{user_id}')
         self.assertEqual(response.status_code, 200)
 
     def test_list_user_by_invalid_id(self):
-        response = self.client.get('/api/v1/users/<abcdef>')
+        response = self.client.get('/api/v1/users/abcdef')
         self.assertEqual(response.status_code, 404)
+
+    def test_update_user(self):
+        user = self.client.post('/api/v1/users/', json={
+            "first_name": "Kan",
+            "last_name": "Poe",
+            "email": "kan.poe@example.com"
+        })
+        self.assertEqual(user.status_code, 201)
+        user_uniq = user.get_json()
+        user_id = user_uniq['id']
+        response = self.client.put(f'/api/v1/users/{user_id}', json={
+            "first_name": "Van",
+            "last_name": "Poe",
+            "email": "Van.poe@example.com"
+        })
+        self.assertEqual(response.status_code, 200)
+
+    def test_update_user_not_found(self):
+        response = self.client.put('/api/v1/users/user_id', json={
+            "first_name": "Van",
+            "last_name": "Poe",
+            "email": "Van.poe@example.com"
+        })
+        self.assertEqual(response.status_code, 404)
+    
+    def test_update_user_invalide_data(self):
+        user = self.client.post('/api/v1/users/', json={
+            "first_name": "Pan",
+            "last_name": "Moe",
+            "email": "pan.moe@example.com"
+        })
+        self.assertEqual(user.status_code, 201)
+        user_uniq = user.get_json()
+        user_id = user_uniq['id']
+        response = self.client.put(f'/api/v1/users/{user_id}', json={
+            "first_name": "",
+            "last_name": "zoe",
+            "email": "example.com"
+        })
+        self.assertEqual(response.status_code, 400)
+

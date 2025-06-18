@@ -2,6 +2,7 @@ from app.models.review import Review
 from app.models.place import Place
 from app.models.users import User
 from app.models.amenities import Amenity
+from app.services import facade
 """
 This module tests Objects and their relations
 """
@@ -48,8 +49,8 @@ def main():
     review = Review(text="Great stay!", rating=5, place=place, user=user)
     assert review.text == "Great stay!"
     assert review.rating == 5
-    assert review.place == place
-    assert review.user == user
+    assert review.place == place.id
+    assert review.user == user.id
     print("review creation test passed!")
     print("review: {}".format(review))
     print("At: {}".format(review.created_at))
@@ -61,8 +62,8 @@ def main():
     review2 = Review(text="Perfect for family !", rating=4, place=place2, user=user)
     assert review2.text == "Perfect for family !"
     assert review2.rating == 4
-    assert review2.place == place2
-    assert review2.user == user
+    assert review2.place == place2.id
+    assert review2.user == user.id
     print("review creation test passed!")
     print("review: {}".format(review2))
     print("At: {}".format(review2.created_at))

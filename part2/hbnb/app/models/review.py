@@ -25,32 +25,74 @@ class Review(BaseModel):
         elif len(text) < 0:
             raise ValueError("text must be not empty")
         else:
-            self.text = text
+            self._text = text
         
         if not isinstance(rating, int):
             raise TypeError("rating must be a int")
         elif rating < 1 or rating > 5:
             raise ValueError("rating must be between 1 and 5")
         else:
-            self.rating = rating
+            self._rating = rating
 
         if not isinstance(place, Place):
             raise TypeError("place must be an instance of Place")
         else:
-            self.place = place  #review is linked to one place
-        """
-        elif InMemoryRepository.get_by_attribute("id", place.id) is None: #a deplacer dans la facade ?
-            raise ValueError("place must be exist")
-        """
+            self._place = place.id  #review is linked to one place
 
         if not isinstance(user, User):
             raise TypeError("user must be an instance of User")
         else:
-            self.user = user #review is linked to one user
-        """
-        elif InMemoryRepository.get_by_attribute("id", user.id) is None: #a deplacer dans la facade ?
-            raise ValueError("user must be exist")
-        """ 
+            self._user = user.id #review is linked to one user
+        
+    @property
+    def text(self):
+        return self._text
+    
+    @text.setter
+    def text(self, text):
+        if not isinstance(text, str):
+            raise TypeError("text must be a string")
+        else:
+            self._text = text
+
+    @property
+    def rating(self):
+        return self._rating
+
+    @rating.setter
+    def rating(self, rating):
+        if not isinstance(rating, int):
+            raise TypeError("rating must be a int")
+        elif rating < 1 or rating > 5:
+            raise ValueError("rating must be between 1 and 5")
+        else:
+            self._rating = rating
+
+    @property
+    def place(self):
+        return self._place
+
+    @place.setter
+    def place(self, place):
+        if not isinstance(place, Place):
+            raise TypeError("place must be an instance of Place")
+        else:
+            self._place = place.id
+
+
+    @property
+    def user(self):
+        return self._user
+    
+    @user.setter
+    def user(self, user):
+        if not isinstance(user, User):
+            raise TypeError("user must be an instance of User")
+        else:
+            self._user = user.id
+    
+    def to_dict(self):
+        return {'text': self._text, 'rating': self._rating, 'place': self._place, 'user': self.user}
 
     def __str__(self):
         return "{}".format(self.text)
