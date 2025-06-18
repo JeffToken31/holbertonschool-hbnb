@@ -1,5 +1,4 @@
 from app.models.baseModel import BaseModel
-from app.persistence.repository import InMemoryRepository
 from re import match
 
 '''
@@ -28,7 +27,7 @@ class User(BaseModel):
         elif len(first_name) > 50:
             raise ValueError("first_name must be 50 characters max")
         else:
-            self._first_name = (first_name)
+            self._first_name = first_name
         
         if not isinstance(last_name, str):
             raise TypeError("last_name must be a string")

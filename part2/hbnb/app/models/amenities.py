@@ -7,7 +7,7 @@ class Amenity(BaseModel):
         """
         Initialize a review by name given
         args:
-            text(str max=50): to define text of the review
+            name(str max=50): to define name of the review
         raises:
             TypeError: if attributes have correct type
             ValueError: if attribute respect exigence
@@ -19,7 +19,24 @@ class Amenity(BaseModel):
         elif len(name) > 50:
             raise ValueError("name must be 50 characters max")
         else:
-            self.name = name
+            self._name = name
+
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, name):
+        if not isinstance(name, str):
+            raise TypeError("name must be a string")
+        elif len(name) > 50:
+            raise ValueError("name must be 50 characters max")
+        else:
+            self._name = name
+
+    def to_dict(self):
+        return {'name': self._name,
+                'id': self.id}
 
     def __str__(self):
         return "{}".format(self.name)
