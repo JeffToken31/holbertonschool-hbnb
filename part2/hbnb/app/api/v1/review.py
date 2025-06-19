@@ -80,4 +80,4 @@ class PlaceReviewList(Resource):
         review_place = facade.get_reviews_by_place(place_id)
         if not review_place:
             return {'error': 'review not found'}, 404
-        return [review.todict() for review in review_place]
+        return [review.to_dict() for review in review_place]

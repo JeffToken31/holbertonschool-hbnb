@@ -1,78 +1,101 @@
 from app.models.baseModel import BaseModel
-from app.models.users import User
 
-'''
-Place class inherite of base model and has amentity and review intance
-'''
+"""Represents a place in HBnB, with title, location, price, owner, amenities, and reviews."""
+
 class Place(BaseModel):
-    def __init__(self, title, description, price, latitude, longitude, owner):
-        """
-        Initialize a place by multiple parameters given
-        args:
-            title(str max=100): to define title of the place
-            description(str max=50): to define description of the place
-            price(float min > 0): define price of the place
-            latitude(float min=-90 max=90): define latitude of the place
-            longitude(float min=-180 max=180): define longitude of the place
-            owner(User exist=True): define owner of the place
-        raises:
-            TypeError: if attributes have correct type
-            ValueError: if attribute respect exigence
-        """
+    def __init__(self, title, price, latitude, longitude, owner, description="", amenities=[], reviews={}):
+
         super().__init__()
 
-        if not isinstance(title, str):
-            raise TypeError("title must be a string")
+        if not isinstance (title, str):
+            raise TypeError ("Title must be a string")
         elif len(title) > 100:
-            raise ValueError("title must be 100 charaters max")
+            raise ValueError ("Title must be max 100 characters")
         else:
             self.title = title
 
-        if not isinstance(description, str):
-            raise TypeError("description must be a string")
+
+        if description is not None and not isinstance (description, str):
+            raise TypeError("Description must be a string")
         else:
             self.description = description
 
-        if not isinstance(price, float):
-            raise TypeError("price must be a float")
+
+        if not isinstance (price, float):
+            raise TypeError ("Price must be a float")
         elif price <= 0:
-            raise ValueError("price must be superior to 0")
+            raise ValueError ("Price must be superior to 0")
         else:
             self.price = price
 
-        if not isinstance(latitude, float):
-            raise TypeError("latitude must be a float")
+
+        if not isinstance (latitude, float):
+            raise TypeError ("Latitude must be a float")
         elif latitude < -90 or latitude > 90:
-            raise ValueError("latitude must be between -90 and 90")
+            raise ValueError ("Latitude must be between -90 and 90")
         else:
             self.latitude = latitude
 
-        if not isinstance(longitude, float):
-            raise TypeError("longitude must be a float")
+
+        if not isinstance (longitude, float):
+            raise TypeError ("Longitude must be a float")
         elif longitude < -180 or longitude > 180:
-            raise ValueError("longitude must be between -90 and 90")
+            raise ValueError ("Longitude must be between -180 and 180")
         else:
             self.longitude = longitude
 
-        if not isinstance(owner, User):
-            raise TypeError("owner must be an instance of User")
+
+        if not hasattr(owner, 'id'):
+            raise ValueError("Invalid owner")
         else:
             self.owner = owner
-        """
-        elif InMemoryRepository.get_by_attribute("id", owner.id) is None: #a deplacer dans la facade ?
-            raise ValueError("owner must be exist")
-        """
 
-        self.reviews = []  # List to store related reviews
-        self.amenities = []  # List to store related amenities
+
+        self.reviews = []
+        self.amenities = []
+
+
 
     def add_review(self, review):
-        """Add a review to the place."""
+        """Add a review to the place"""
         self.reviews.append(review)
 
     def add_amenity(self, amenity):
-        """Add an amenity to the place."""
+        """Add an amenity to the place"""
         self.amenities.append(amenity)
+
 
     def __str__(self):
         return "{}- {} ({}€)".format(self.title, self.description, self.price)
+
+    def to_dict(self):
+        return {
+        'id': self.id,
+        'title': self.title,
+        'description': self.description,
+        'latitude': self.latitude,
+        'longitude': self.longitude,
+        'owner': {
+            'id': self.owner.id,
+            'first_name': self.owner.first_name,
+            'last_name': self.owner.last_name,
+            'email': self.owner.email
+        } if self.owner else None,
+        'amenities': [
+            {
+                'id': amenity.id,
+                'name': amenity.name
+            } for amenity in self.amenities
+        ]
+    }
+
+    def to_bibl(self):
+        return {
+        'id': self.id,
+        'title': self.title,
+        'price': self.price,
+        'description': self.description,
+        'latitude': self.latitude,
+        'longitude': self.longitude,
+        'owner_id': self.owner.id
+    }
