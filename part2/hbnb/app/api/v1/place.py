@@ -94,9 +94,9 @@ class PlaceResource(Resource):
             facade.update_place(place_id, data)
         except ValueError as e:
             # Par exemple erreur de validation sur les champs
-            return {'error': str(e)}, 400
+            return {'error': str(e)}, 404
         except Exception as e:
             # Erreur inattendue (logguer en prod)
-            return {'error': 'Internal server error'}, 500
+            return {'error': str(e)}, 404
 
         return {'message': 'Place updated successfully'}, 200
