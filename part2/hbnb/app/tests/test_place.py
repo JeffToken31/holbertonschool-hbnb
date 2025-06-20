@@ -23,7 +23,7 @@ class TestPlaceEndpoints(unittest.TestCase):
         data_amenity = amenity.get_json()
         amenity_id = data_amenity['id']
 
-        place = self.client.post('/api/v1/place/', json={
+        place = self.client.post('/api/v1/places/', json={
             "title": "string",
             "description": "string",
             "price": 10.0,
@@ -50,7 +50,7 @@ class TestPlaceEndpoints(unittest.TestCase):
         data_amenity = amenity.get_json()
         amenity_id = data_amenity['id']
 
-        place = self.client.post('/api/v1/place/', json={
+        place = self.client.post('/api/v1/places/', json={
             "title": "",
             "description": "string",
             "price": -110.0,
@@ -62,7 +62,7 @@ class TestPlaceEndpoints(unittest.TestCase):
         self.assertEqual(place.status_code, 400)
 
     def test_list_all_place(self):
-        response = self.client.get('/api/v1/place/')
+        response = self.client.get('/api/v1/places/')
         self.assertEqual(response.status_code, 200)
     
     def test_list_place_by_id(self):
@@ -81,7 +81,7 @@ class TestPlaceEndpoints(unittest.TestCase):
         data_amenity = amenity.get_json()
         amenity_id = data_amenity['id']
 
-        place = self.client.post('/api/v1/place/', json={
+        place = self.client.post('/api/v1/places/', json={
             "title": "string",
             "description": "string",
             "price": 10.0,
@@ -94,11 +94,11 @@ class TestPlaceEndpoints(unittest.TestCase):
 
         data_place = place.get_json()
         place_id = data_place['id']
-        response = self.client.get(f'/api/v1/place/{place_id}')
+        response = self.client.get(f'/api/v1/places/{place_id}')
         self.assertEqual(response.status_code, 200)
 
     def test_place_list_by_invalid_id(self):
-        response = self.client.get('/api/v1/place/abcdef')
+        response = self.client.get('/api/v1/places/abcdef')
         self.assertEqual(response.status_code, 404)
 
     def test_update_place(self):
@@ -117,7 +117,7 @@ class TestPlaceEndpoints(unittest.TestCase):
         data_amenity = amenity.get_json()
         amenity_id = data_amenity['id']
 
-        place = self.client.post('/api/v1/place/', json={
+        place = self.client.post('/api/v1/places/', json={
             "title": "string",
             "description": "string",
             "price": 10.0,
@@ -131,7 +131,7 @@ class TestPlaceEndpoints(unittest.TestCase):
         data_place = place.get_json()
         place_id = data_place['id']
 
-        response = self.client.put(f'/api/v1/place/{place_id}', json={
+        response = self.client.put(f'/api/v1/places/{place_id}', json={
             "title": "coucou",
             "description": "string",
             "price": 10.0,
@@ -159,7 +159,7 @@ class TestPlaceEndpoints(unittest.TestCase):
         data_amenity = amenity.get_json()
         amenity_id = data_amenity['id']
 
-        place = self.client.post('/api/v1/place/', json={
+        place = self.client.post('/api/v1/places/', json={
             "title": "strinug",
             "description": "strging",
             "price": 10.0,
@@ -172,7 +172,7 @@ class TestPlaceEndpoints(unittest.TestCase):
 
         data_place = place.get_json()
         place_id = data_place['id']
-        response = self.client.put(f'/api/v1/place/{place_id}', json={
+        response = self.client.put(f'/api/v1/places/{place_id}', json={
             "title": "string",
             "description": "string",
             "price": 10.0,
@@ -184,7 +184,7 @@ class TestPlaceEndpoints(unittest.TestCase):
         self.assertEqual(response.status_code, 404)
     
     def test_update_place_invalide_data(self):
-        response = self.client.put('/api/v1/place/sdqsd', json={
+        response = self.client.put('/api/v1/places/sdqsd', json={
             "title": "",
             "description": "",
             "price": -100,
