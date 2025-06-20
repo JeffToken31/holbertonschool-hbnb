@@ -150,8 +150,17 @@ class HBnBFacade:
     # Placeholder for review
 
     def create_review(self, review_data):
-    # Placeholder for logic to create a review, including validation for user_id, place_id, and rating
-        review = Review(**review_data)
+        user_id = review_data.get('user')
+        place_id = review_data.get('place')
+        user = self.user_repo.get(user_id)
+        place = self.place_repo.get(place_id)
+        if not user:
+            raise ValueError("User does not exist.")
+        if not place:
+            raise ValueError("Place does not exist.")
+        text = review_data.get('text')
+        rating = review_data.get('rating')
+        review = Review(text, rating, place, user)
         self.review_repo.add(review)
         return review
 
@@ -164,16 +173,29 @@ class HBnBFacade:
         return self.review_repo.get_all()
 
     def get_reviews_by_place(self, place_id):
-        # Placeholder for logic to retrieve all reviews for a specific place
-        return self.review_repo.get_by_attribute('place', place_id)
+        all_reviews = self.review_repo.get_all()
+        return [review for review in all_reviews if getattr(review, 'place').id == place_id]
 
     def update_review(self, review_id, review_data):
         # Placeholder for logic to update a review
-        review_exist = self.review_repo.get(review_id)
-        if not review_exist:
+        review = self.review_repo.get(review_id)
+        if not review:
             return None
-        self.review_repo.update(review_id, review_data)
-        return review_exist
+        if 'text' in review_data:
+            review.text = review_data['text']
+        if 'rating' in review_data:
+            review.rating = review_data['rating']
+        if 'place' in review_data:
+            place = self.place_repo.get(review_data['place'])
+            if not place:
+                raise ValueError("Place does not exist.")
+            review.place = place
+        if 'user' in review_data:
+            user = self.user_repo.get(review_data['user'])
+            if not user:
+                raise ValueError("User does not exist.")
+            review.user = user
+        return review
 
     def delete_review(self, review_id):
         # Placeholder for logic to delete a review

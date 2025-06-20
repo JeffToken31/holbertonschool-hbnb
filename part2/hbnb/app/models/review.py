@@ -19,14 +19,14 @@ class Review(BaseModel):
             ValueError: if attribute respect exigence
         """
         super().__init__()
-        
+
         if not isinstance(text, str):
             raise TypeError("text must be a string")
-        elif len(text) < 0:
+        elif len(text) == 0:
             raise ValueError("text must be not empty")
         else:
             self._text = text
-        
+
         if not isinstance(rating, int):
             raise TypeError("rating must be a int")
         elif rating < 1 or rating > 5:
@@ -37,17 +37,17 @@ class Review(BaseModel):
         if not isinstance(place, Place):
             raise TypeError("place must be an instance of Place")
         else:
-            self._place = place.id  #review is linked to one place
+            self._place = place
 
         if not isinstance(user, User):
             raise TypeError("user must be an instance of User")
         else:
-            self._user = user.id #review is linked to one user
-        
+            self._user = user
+
     @property
     def text(self):
         return self._text
-    
+
     @text.setter
     def text(self, text):
         if not isinstance(text, str):
@@ -77,22 +77,29 @@ class Review(BaseModel):
         if not isinstance(place, Place):
             raise TypeError("place must be an instance of Place")
         else:
-            self._place = place.id
+            self._place = place
 
 
     @property
     def user(self):
         return self._user
-    
+
     @user.setter
     def user(self, user):
         if not isinstance(user, User):
             raise TypeError("user must be an instance of User")
         else:
-            self._user = user.id
-    
+            self._user = user
+
     def to_dict(self):
-        return {'text': self._text, 'rating': self._rating, 'place': self._place, 'user': self.user}
+        return {
+        'id': self.id,
+        'text': self._text,
+        'rating': self._rating,
+        'place': self._place.id,
+        'user': self._user.id
+    }
+
 
     def __str__(self):
         return "{}".format(self.text)
