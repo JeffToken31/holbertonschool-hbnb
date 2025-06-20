@@ -391,7 +391,7 @@ This means all tests ran successfully without errors.
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
-  <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white" />
+  <img src="https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnubash&logoColor=white" />
   <img src="https://img.shields.io/badge/Flask--RESTx-lightgrey?style=for-the-badge&logo=flask&logoColor=white" />
   <img src="https://img.shields.io/badge/REST%20API-005571?style=for-the-badge&logo=api&logoColor=white" />
   <img src="https://img.shields.io/badge/JSON-333333?style=for-the-badge&logo=json&logoColor=white" />
