@@ -5,6 +5,8 @@ from app.models.place import Place
 '''
 Place class inherite of base model and is linked to one place_owner
 '''
+
+
 class Review(BaseModel):
     def __init__(self, text, rating, place, user):
         """
@@ -79,7 +81,6 @@ class Review(BaseModel):
         else:
             self._place = place
 
-
     @property
     def user(self):
         return self._user
@@ -93,13 +94,12 @@ class Review(BaseModel):
 
     def to_dict(self):
         return {
-        'id': self.id,
-        'text': self._text,
-        'rating': self._rating,
-        'place': self._place.id,
-        'user': self._user.id
-    }
-
+            'id': self.id,
+            'text': self._text,
+            'rating': self._rating,
+            'place': self._place.id,
+            'user': self._user.id
+        }
 
     def __str__(self):
         return "{}".format(self.text)

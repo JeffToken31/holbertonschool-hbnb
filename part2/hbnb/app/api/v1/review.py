@@ -11,6 +11,7 @@ review_model = api.model('Review', {
     'user': fields.String(required=True, description='ID of the user')
 })
 
+
 @api.route('/')
 class ReviewList(Resource):
     @api.expect(review_model)
@@ -34,8 +35,10 @@ class ReviewList(Resource):
             'text': review.text,
             'rating': review.rating,
             'place': review.place.id,
-            'user': review.user.id } for review in reviews
+            'user': review.user.id} for review in reviews
         ]
+
+
 @api.route('/<review_id>')
 class ReviewResource(Resource):
     @api.response(200, 'Review details retrieved successfully')
@@ -71,6 +74,7 @@ class ReviewResource(Resource):
             return {'error': 'review not found'}, 404
         facade.delete_review(review_id)
         return {"message": "Review deleted successfully"}, 200
+
 
 @api.route('/places/<place_id>/reviews')
 class PlaceReviewList(Resource):

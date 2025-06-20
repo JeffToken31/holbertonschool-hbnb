@@ -1,6 +1,7 @@
 import unittest
 from app import create_app
 
+
 class TestPlaceEndpoints(unittest.TestCase):
 
     def setUp(self):
@@ -33,7 +34,7 @@ class TestPlaceEndpoints(unittest.TestCase):
             "amenities": [amenity_id]
             })
         self.assertEqual(place.status_code, 201)
-    
+
     def test_create_place_invalid_data(self):
         user = self.client.post('/api/v1/users/', json={
             "first_name": "Jankkje",
@@ -64,7 +65,7 @@ class TestPlaceEndpoints(unittest.TestCase):
     def test_list_all_place(self):
         response = self.client.get('/api/v1/places/')
         self.assertEqual(response.status_code, 200)
-    
+
     def test_list_place_by_id(self):
         user = self.client.post('/api/v1/users/', json={
             "first_name": "pane",
@@ -142,7 +143,6 @@ class TestPlaceEndpoints(unittest.TestCase):
             })
         self.assertEqual(response.status_code, 200)
 
-
     def test_update_place_not_found(self):
         user = self.client.post('/api/v1/users/', json={
             "first_name": "Jankkopje",
@@ -182,7 +182,7 @@ class TestPlaceEndpoints(unittest.TestCase):
             "amenities": []
         })
         self.assertEqual(response.status_code, 404)
-    
+
     def test_update_place_invalide_data(self):
         response = self.client.put('/api/v1/places/sdqsd', json={
             "title": "",

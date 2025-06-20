@@ -27,6 +27,7 @@ place_model = api.model('Place', {
     'amenities': fields.List(fields.String, required=True, description="List of amenities ID's")
 })
 
+
 @api.route('/')
 class PlaceList(Resource):
     @api.expect(place_model)
@@ -41,27 +42,25 @@ class PlaceList(Resource):
         try:
             new_place = facade.create_place(place_data)
         except (TypeError, ValueError) as e:
-            return{'error': str(e)}, 400
+            return {'error': str(e)}, 400
 
         return new_place.to_dict(), 201
-
 
     @api.response(200, "List of places retrieved successfully")
     def get(self):
         """Retrieve a list of all places"""
         places = facade.get_all_places()
-
-        #Return only the requested fields
         result = []
         for place in places:
             result.append({
-            'id': place.id,
-            'title': place.title,
-            'latitude': place.latitude,
-            'longitude': place.longitude
-        })
+                'id': place.id,
+                'title': place.title,
+                'latitude': place.latitude,
+                'longitude': place.longitude
+            })
 
         return result, 200
+
 
 @api.route('/<place_id>')
 class PlaceResource(Resource):
@@ -73,8 +72,6 @@ class PlaceResource(Resource):
         if not place:
             return {'error': 'Place not found'}, 404
         return place.to_dict(), 200
-
-
 
     @api.expect(place_model)
     @api.response(200, 'Place updated successfully')
@@ -89,10 +86,8 @@ class PlaceResource(Resource):
         try:
             facade.update_place(place_id, data)
         except ValueError as e:
-            # Par exemple erreur de validation sur les champs
             return {'error': str(e)}, 404
         except Exception as e:
-            # Erreur inattendue (logguer en prod)
             return {'error': str(e)}, 404
 
         return {'message': 'Place updated successfully'}, 200

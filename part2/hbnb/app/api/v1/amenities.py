@@ -8,6 +8,7 @@ amenity_model = api.model('Amenity', {
     'name': fields.String(required=True, description='Name of the amenity')
 })
 
+
 @api.route('/')
 class AmenityList(Resource):
     @api.expect(amenity_model)
@@ -16,7 +17,6 @@ class AmenityList(Resource):
     def post(self):
         """Register a new amenity"""
         amenity_data = api.payload
-
         try:
             new_amenity = facade.create_amenity(amenity_data)
         except (TypeError, ValueError) as e:
@@ -32,6 +32,7 @@ class AmenityList(Resource):
             'id': amenity.id,
             'name': amenity.name} for amenity in amenities
             ], 200
+
 
 @api.route('/<amenity_id>')
 class AmenityResource(Resource):

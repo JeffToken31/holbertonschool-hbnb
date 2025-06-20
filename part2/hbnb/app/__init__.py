@@ -5,6 +5,7 @@ from app.api.v1.amenities import api as amenity_ns
 from app.api.v1.review import api as review_ns
 from app.api.v1.place import api as place_ns
 
+
 def create_app():
     app = Flask(__name__)
     api = Api(app, version='1.0', title='HBnB API', description='HBnB Application API', doc="/api/v1/docs")

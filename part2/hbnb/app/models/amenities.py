@@ -2,6 +2,8 @@ from app.models.baseModel import BaseModel
 '''
 Ammenity class inherite of base model and is linked to one place
 '''
+
+
 class Amenity(BaseModel):
     def __init__(self, name):
         """
@@ -24,7 +26,7 @@ class Amenity(BaseModel):
     @property
     def name(self):
         return self._name
-    
+
     @name.setter
     def name(self, name):
         if not isinstance(name, str):

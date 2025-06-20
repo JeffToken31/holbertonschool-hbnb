@@ -1,6 +1,7 @@
 import unittest
 from app import create_app
 
+
 class TestReviewEndpoints(unittest.TestCase):
 
     def setUp(self):
@@ -186,7 +187,7 @@ class TestReviewEndpoints(unittest.TestCase):
             "place": "place_id"
             })
         self.assertEqual(response.status_code, 404)
-    
+
     def test_update_review_invalid_data(self):
         user = self.client.post('/api/v1/users/', json={
             "first_name": "Jane",

@@ -1,6 +1,7 @@
 import unittest
 from app import create_app
 
+
 class TestUserEndpoints(unittest.TestCase):
 
     def setUp(self):
@@ -22,11 +23,11 @@ class TestUserEndpoints(unittest.TestCase):
             "email": "invalid-email"
         })
         self.assertEqual(response.status_code, 400)
-    
+
     def test_list_all_users(self):
         response = self.client.get('/api/v1/users/')
         self.assertEqual(response.status_code, 200)
-    
+
     def test_list_users_by_id(self):
         user = self.client.post('/api/v1/users/', json={
             "first_name": "Jan",
@@ -66,7 +67,7 @@ class TestUserEndpoints(unittest.TestCase):
             "email": "Van.poe@example.com"
         })
         self.assertEqual(response.status_code, 404)
-    
+
     def test_update_user_invalide_data(self):
         user = self.client.post('/api/v1/users/', json={
             "first_name": "Pan",
@@ -82,4 +83,3 @@ class TestUserEndpoints(unittest.TestCase):
             "email": "example.com"
         })
         self.assertEqual(response.status_code, 400)
-
