@@ -37,8 +37,8 @@ class HBnBFacade:
             if hasattr(user_exist, key):
                 setattr(user_exist, key, value)
         return user_exist
-    
-    
+
+
     def get_user(self, user_id):
         return self.user_repo.get(user_id)
 
@@ -47,7 +47,7 @@ class HBnBFacade:
 
     def get_all_users(self):
         return self.user_repo.get_all()
-    
+
     # Placeholder for logic to create a place
     def create_place(self, place_data):
         price = place_data.get('price')
@@ -125,8 +125,8 @@ class HBnBFacade:
             place_data['amenities'] = amenities
 
         return self.place_repo.update(place_id, place_data)
-    
-    
+
+
     def create_amenity(self, amenity_data):
     # Placeholder for logic to create an amenity
         amenity = Amenity(**amenity_data) # **is to destructurate a dict
@@ -146,7 +146,7 @@ class HBnBFacade:
             return None
         self.amenity_repo.update(amenity_id, amenity_data)
         return amenity_exist
-    
+
     # Placeholder for review
 
     def create_review(self, review_data):
