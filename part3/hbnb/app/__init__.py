@@ -4,9 +4,7 @@ from app.api.v1.users import api as users_ns
 from app.api.v1.amenities import api as amenity_ns
 from app.api.v1.review import api as review_ns
 from app.api.v1.place import api as place_ns
-from flask_bcrypt import Bcrypt
-
-bcrypt = Bcrypt()
+from app.extends import bcrypt
 
 
 def create_app(config_class="config.DevelopmentConfig"):
