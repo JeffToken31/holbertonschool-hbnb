@@ -32,7 +32,7 @@ class User(BaseModel):
         self.last_name = last_name
 
         self.email = email
-        
+
         self.password = password
 
         self.is_admin = is_admin
@@ -73,7 +73,9 @@ class User(BaseModel):
     def email(self, email):
         if not isinstance(email, str):
             raise TypeError("email must be a string")
-        elif not match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email):
+        elif not match(
+                        r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+                        email):
             raise ValueError("enter a valid email")
         else:
             self._email = email
@@ -104,8 +106,11 @@ class User(BaseModel):
         return "{} {}".format(self.first_name, self.last_name)
 
     def to_dict(self):
-        return {'id': self.id, 'first_name': self.first_name, 'last_name': self.last_name, 'email': self.email}
-    
+        return {'id': self.id,
+                'first_name': self.first_name,
+                'last_name': self.last_name,
+                'email': self.email}
+
     def hash_password(self, password):
         """Hashes the password before storing it."""
         self.password = bcrypt.generate_password_hash(password).decode('utf-8')
