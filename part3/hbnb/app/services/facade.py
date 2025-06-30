@@ -37,10 +37,6 @@ class HBnBFacade:
                 setattr(user_exist, key, value)
         return user_exist
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/main
     def get_user(self, user_id):
         return self.user_repo.get(user_id)
 
@@ -50,11 +46,7 @@ class HBnBFacade:
     def get_all_users(self):
         return self.user_repo.get_all()
 
-<<<<<<< HEAD
-    # Placeholder for logic to create a place
-=======
     # Placeholder method for place
->>>>>>> origin/main
     def create_place(self, place_data):
         price = place_data.get('price')
         latitude = place_data.get('latitude')
@@ -127,11 +119,7 @@ class HBnBFacade:
 
         return self.place_repo.update(place_id, place_data)
 
-<<<<<<< HEAD
-
-=======
     # Placeholder for amenity
->>>>>>> origin/main
     def create_amenity(self, amenity_data):
 
         amenity = Amenity(**amenity_data)

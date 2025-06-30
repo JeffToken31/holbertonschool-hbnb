@@ -125,11 +125,7 @@ Files inside:
 
 ### 📝 Snippet code of an API route (app/api/amenities.py)
 
-<<<<<<< HEAD
-```
-=======
 ```python
->>>>>>> origin/main
 @api.route('/')
 class AmenityList(Resource):
     @api.expect(amenity_model)
@@ -166,23 +162,15 @@ Files inside:
 
 ### 📝 Snippet code of a data model (app/models/users.py)
 
-<<<<<<< HEAD
-````
-=======
 ```python
->>>>>>> origin/main
 if not isinstance(first_name, str):
             raise TypeError("first_name must be a string")
         elif len(first_name) > 50:
             raise ValueError("first_name must be 50 characters max")
         else:
             self._first_name = first_name
-<<<<<<< HEAD
-````
-=======
 ```
 
->>>>>>> origin/main
 Here’s a simpler version including the file reference:
 
 This code from users.py checks that first_name is a string and not longer than 50 characters. If it isn’t, it raises an error to keep the data correct.
@@ -202,24 +190,16 @@ Files inside:
 - `__init__.py`: just makes the folder a package.
 
 ### 📝 Snippet code of a persistence class (app/persistence/repository.py)
-<<<<<<< HEAD
-````
-=======
 
 ```python
->>>>>>> origin/main
 class InMemoryRepository(Repository):
     def __init__(self):
         self._storage = {}
 
     def add(self, obj):
         self._storage[obj.id] = obj
-<<<<<<< HEAD
-````
-=======
 ```
 
->>>>>>> origin/main
 This code from repository.py shows how objects are saved in memory using a dictionary. Each object is stored with its id as the key, making it easy to retrieve or update.
 
 👉 This layer helps you keep the storage logic **separate** from your business logic and routes.
@@ -239,21 +219,14 @@ Files inside:
 
 ### 📝 Snippet code of a service function (app/services/facade.py)
 
-<<<<<<< HEAD
-```
-=======
 ```python
->>>>>>> origin/main
 def get_place(self, place_id):
         place = self.place_repo.get(place_id)
         if not place:
             raise ValueError("Place not found.")
         return place
 ```
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/main
 This code from facade.py tries to find a place by its ID. If no place is found, it raises an error to let the system know the place doesn’t exist.
 
 👉 The facade uses the repository to interact with the data, and it's used by the routes to perform actions.
@@ -307,24 +280,6 @@ This code from facade.py tries to find a place by its ID. If no place is found, 
 | PUT    | /api/v1/amenities/<amenity_id> | Update amenity details   |
 
 ---
-<<<<<<< HEAD
-## 🔧 Technologies & Tools
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
-  <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white" />
-  <img src="https://img.shields.io/badge/Flask--RESTx-lightgrey?style=for-the-badge&logo=flask&logoColor=white" />
-  <img src="https://img.shields.io/badge/REST%20API-005571?style=for-the-badge&logo=api&logoColor=white" />
-  <img src="https://img.shields.io/badge/JSON-333333?style=for-the-badge&logo=json&logoColor=white" />
-  <img src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white" />
-  <img src="https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black" />
-  <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" />
-  <img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" />
-  <img src="https://img.shields.io/badge/VS%20Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white" />
-</p>
-
-=======
->>>>>>> origin/main
 
 ## 🧪 Testing the Endpoints Using cURL
 
@@ -332,12 +287,8 @@ You can test your API routes using cURL in your terminal.
 Here’s how to test user creation with valid data:
 
 📤 Create a User
-<<<<<<< HEAD
-```
-=======
 
 ```bash
->>>>>>> origin/main
 curl -X POST "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application/json" -d '{
       "first_name": "John",
       "last_name": "Doe",
@@ -346,12 +297,8 @@ curl -X POST "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application
 ```
 
 ✅ Expected Response (Status: 200 OK)
-<<<<<<< HEAD
-```
-=======
 
 ```bash
->>>>>>> origin/main
 {
   "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "first_name": "John",
@@ -369,11 +316,7 @@ You can also test how the API handles invalid input data. Here’s an example wh
 
 📤 Create a User with Invalid Data
 
-<<<<<<< HEAD
-```
-=======
 ```bash
->>>>>>> origin/main
 curl -X POST "http://127.0.0.1:5000/api/v1/users/" \
      -H "Content-Type: application/json" \
      -d '{
@@ -385,11 +328,7 @@ curl -X POST "http://127.0.0.1:5000/api/v1/users/" \
 
 ❌ Expected Response (Status: 400 Bad Request)
 
-<<<<<<< HEAD
-```
-=======
 ```json
->>>>>>> origin/main
 {
   "error": "Invalid input data"
 }
@@ -399,17 +338,6 @@ curl -X POST "http://127.0.0.1:5000/api/v1/users/" \
 
 When you start the server, visiting the base URL:
 
-<<<<<<< HEAD
-```
-http://127.0.0.1:5000/
-```
-won’t show the API documentation — this is expected.
-
-To access the Swagger UI, which documents and allows you to test all API endpoints, go to:
-```
-http://127.0.0.1:5000/api/v1/docs
-```
-=======
 <http://127.0.0.1:5000/>
 
 won’t show the API documentation — this is expected.
@@ -417,7 +345,6 @@ won’t show the API documentation — this is expected.
 To access the Swagger UI, which documents and allows you to test all API endpoints, go to:
 
 <http://127.0.0.1:5000/api/v1/docs>
->>>>>>> origin/main
 
 This page is automatically generated by Flask-RESTx based on your API models and helps you explore the API, see request/response details, and try out endpoints interactively.
 
@@ -425,25 +352,15 @@ This page is automatically generated by Flask-RESTx based on your API models and
 
 You can run your unit tests using Python’s built-in **unittest** module. For example, to run the tests in the **test_amenity.py** file, use this command in your terminal:
 
-<<<<<<< HEAD
-```
-python3 -m unittest app.tests.test_amenity
-```
-=======
 ```python
 python3 -m unittest app.tests.test_amenity
 ```
 
->>>>>>> origin/main
 This will execute all test methods inside the TestAmenityEndpoints class (and any others in the file).
 
 Here’s a sample test file for reference:
 
-<<<<<<< HEAD
-```
-=======
 ```python
->>>>>>> origin/main
 import unittest
 from app import create_app
 
@@ -456,19 +373,11 @@ class TestAmenityEndpoints(unittest.TestCase):
     def test_create_amenity(self):
         response = self.client.post('/api/v1/amenities/', json={"name": "wifi"})
         self.assertEqual(response.status_code, 201)
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/main
 ```
 
 If your tests pass, you will see a message like this in the terminal:
 
-<<<<<<< HEAD
-```
-=======
 ```bash
->>>>>>> origin/main
 .....
 ----------------------------------------------------------------------
 Ran 5 tests in 0.083s
@@ -478,8 +387,6 @@ OK
 
 This means all tests ran successfully without errors.
 
-<<<<<<< HEAD
-=======
 ## 🔧 Technologies & Tools
 
 <p align="center">
@@ -495,7 +402,6 @@ This means all tests ran successfully without errors.
   <img src="https://img.shields.io/badge/VS%20Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white"/>
 </p>
 
->>>>>>> origin/main
 ## 🧠 Additional Notes
 
 - All endpoints are under the `/api/v1` path.
@@ -506,12 +412,6 @@ This means all tests ran successfully without errors.
 
 ## 🧑‍🏫 Authors
 
-<<<<<<< HEAD
-👨‍💻 Louis Manchon: https://github.com/LouisManchon
-
-👨‍💻 Jeffrey Basset: https://github.com/JeffToken31
-=======
 👨‍💻 Louis Manchon: <https://github.com/LouisManchon>
 
 👨‍💻 Jeffrey Basset: <https://github.com/JeffToken31>
->>>>>>> origin/main

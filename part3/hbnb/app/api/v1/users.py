@@ -6,7 +6,8 @@ api = Namespace('users', description='User operations')
 user_model = api.model('User', {
     'first_name': fields.String(required=True, description='First name of the user'),
     'last_name': fields.String(required=True, description='Last name of the user'),
-    'email': fields.String(required=True, description='Email of the user')
+    'email': fields.String(required=True, description='Email of the user'),
+    'password': fields.String(required=True, description='password of the user')
 })
 
 
@@ -26,7 +27,7 @@ class UserList(Resource):
             new_user = facade.create_user(user_data)
         except (TypeError, ValueError) as e:
             return {'error': str(e)}, 400
-        return new_user.to_dict(), 201
+        return {"id": new_user.id, "message": "User registered successfully"}, 201
 
     @api.response(200, 'the list of users is successfully retrieved')
     def get(self):

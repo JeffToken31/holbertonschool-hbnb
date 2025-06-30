@@ -1,5 +1,7 @@
 from app.models.baseModel import BaseModel
 from re import match
+from app.extends import bcrypt
+
 
 '''
 User class inherits from base model and has place and review instances
@@ -11,13 +13,14 @@ class User(BaseModel):
     Define user class
     """
 
-    def __init__(self, first_name, last_name, email, is_admin=False):
+    def __init__(self, first_name, last_name, email, password, is_admin=False):
         """
         Initialize a user by multiple parameters given
         args:
             first_name(str max=50): to define first_name of the user
             last_name(str max=50): to define last_name of the user
             email(str content="@"): define email of the user
+            password: define and hash password with bcrypt
             is_admin(bool default=False): authorise access for admin
         raises:
             TypeError: if attributes have incorrect type
@@ -25,26 +28,13 @@ class User(BaseModel):
         """
         super().__init__()
 
-        if not isinstance(first_name, str):
-            raise TypeError("first_name must be a string")
-        elif len(first_name) > 50:
-            raise ValueError("first_name must be 50 characters max")
-        else:
-            self._first_name = first_name
+        self.first_name = first_name
 
-        if not isinstance(last_name, str):
-            raise TypeError("last_name must be a string")
-        elif len(last_name) > 50:
-            raise ValueError("last_name must be 50 characters max")
-        else:
-            self._last_name = last_name
+        self.last_name = last_name
 
-        if not isinstance(email, str):
-            raise TypeError("email must be a string")
-        elif not match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email):
-            raise ValueError("enter a valid email")
-        else:
-            self._email = email
+        self.email = email
+
+        self.password = password
 
         self.is_admin = is_admin
         self.places = []     # List to store related places
@@ -84,10 +74,23 @@ class User(BaseModel):
     def email(self, email):
         if not isinstance(email, str):
             raise TypeError("email must be a string")
-        elif not match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email):
+        elif not match(
+                        r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+                        email):
             raise ValueError("enter a valid email")
         else:
             self._email = email
+
+    @property
+    def password(self):
+        return self._password
+
+    @password.setter
+    def password(self, password):
+        if not isinstance(password, str):
+            raise TypeError("Password must be a string")
+        else:
+            self._password = self.hash_password(password)
 
     def add_place(self, place):
         """Add a place to the user."""
@@ -104,4 +107,15 @@ class User(BaseModel):
         return "{} {}".format(self.first_name, self.last_name)
 
     def to_dict(self):
-        return {'id': self.id, 'first_name': self.first_name, 'last_name': self.last_name, 'email': self.email}
+        return {'id': self.id,
+                'first_name': self.first_name,
+                'last_name': self.last_name,
+                'email': self.email}
+
+    def hash_password(self, password):
+        """Hashes the password before storing it."""
+        return bcrypt.generate_password_hash(password).decode('utf-8')
+
+    def verify_password(self, password):
+        """Verifies if the provided password matches the hashed password."""
+        return bcrypt.check_password_hash(self.password, password)
