@@ -87,15 +87,16 @@ class PlaceResource(Resource):
         data = api.payload
         if not data:
             return {'error': 'Missing or invalid JSON payload'}, 400
+        place = facade.get_place(place_id)
+
+        if place.owner.id != current_user["id"]:
+            return {'error': 'Unauthorized action'}, 403
 
         try:
-            place = facade.update_place(place_id, data)
+            facade.update_place(place_id, data)
         except ValueError as e:
             return {'error': str(e)}, 404
         except Exception as e:
             return {'error': str(e)}, 404
-        
-        if place.owner != current_user:
-            return {'error': 'Unauthorized action'}, 403
 
         return {'message': 'Place updated successfully'}, 200
