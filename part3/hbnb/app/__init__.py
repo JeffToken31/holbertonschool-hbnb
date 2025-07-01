@@ -5,18 +5,21 @@ from app.api.v1.amenities import api as amenity_ns
 from app.api.v1.review import api as review_ns
 from app.api.v1.place import api as place_ns
 from app.api.v1.auth import api as auth_ns
-from app.api.v1.protected import api as protected_ns
 from app.extends import bcrypt
 from app.extends import jwt
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 from config import DevelopmentConfig
 >>>>>>> origin/jeff
+=======
+>>>>>>> origin/jeff
 
 
-def create_app(config_class=DevelopmentConfig):
+def create_app(config_class="config.DevelopmentConfig"):
     app = Flask(__name__)
     app.config.from_object(config_class)
+<<<<<<< HEAD
 <<<<<<< HEAD
     api = Api(app, version='1.0', title='HBnB API', description='HBnB Application API', doc="/api/v1/docs")
 =======
@@ -40,6 +43,10 @@ def create_app(config_class=DevelopmentConfig):
 
 
 >>>>>>> origin/jeff
+=======
+    app.config["JWT_SECRET_KEY"] = "super-secret"
+    api = Api(app, version='1.0', title='HBnB API', description='HBnB Application API', doc="/api/v1/docs")
+>>>>>>> origin/jeff
     bcrypt.init_app(app)
     jwt.init_app(app)
 
@@ -48,6 +55,5 @@ def create_app(config_class=DevelopmentConfig):
     api.add_namespace(review_ns, path='/api/v1/reviews')
     api.add_namespace(place_ns, path='/api/v1/places')
     api.add_namespace(auth_ns, path='/api/v1/auth')
-    api.add_namespace(protected_ns, path='/api/v1/protected')
 
     return app
