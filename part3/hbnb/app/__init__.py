@@ -7,46 +7,15 @@ from app.api.v1.place import api as place_ns
 from app.api.v1.auth import api as auth_ns
 from app.extends import bcrypt
 from app.extends import jwt
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-from config import DevelopmentConfig
->>>>>>> origin/jeff
-=======
->>>>>>> origin/jeff
+
 
 
 def create_app(config_class="config.DevelopmentConfig"):
     app = Flask(__name__)
     app.config.from_object(config_class)
-<<<<<<< HEAD
-<<<<<<< HEAD
     api = Api(app, version='1.0', title='HBnB API', description='HBnB Application API', doc="/api/v1/docs")
-=======
     app.config["JWT_SECRET_KEY"] = "my-very-strong-and-long-secret-key-1234567890"
 
-    authorizations = {
-        'BearerAuth': {
-            'type': 'apiKey',
-            'in': 'header',
-            'name': 'Authorization',
-            'description': 'Bearer <access_token>'
-        }
-    }
-    api = Api(app,
-            version='1.0',
-            title='HBnB API',
-            description='HBnB Application API',
-            doc="/api/v1/docs",
-            authorizations=authorizations,
-            security='BearerAuth')
-
-
->>>>>>> origin/jeff
-=======
-    app.config["JWT_SECRET_KEY"] = "super-secret"
-    api = Api(app, version='1.0', title='HBnB API', description='HBnB Application API', doc="/api/v1/docs")
->>>>>>> origin/jeff
     bcrypt.init_app(app)
     jwt.init_app(app)
 
