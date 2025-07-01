@@ -1,7 +1,6 @@
 from app.models.baseModel import BaseModel
 from re import match
-from app.extends import bcrypt
-
+import app
 
 '''
 User class inherits from base model and has place and review instances
@@ -114,8 +113,8 @@ class User(BaseModel):
 
     def hash_password(self, password):
         """Hashes the password before storing it."""
-        return bcrypt.generate_password_hash(password).decode('utf-8')
+        return app.bcrypt.generate_password_hash(password).decode('utf-8')
 
     def verify_password(self, password):
         """Verifies if the provided password matches the hashed password."""
-        return bcrypt.check_password_hash(self.password, password)
+        return app.bcrypt.check_password_hash(self.password, password)
