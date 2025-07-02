@@ -2,7 +2,6 @@ from flask_restx import Namespace, Resource, fields
 from app.services import facade
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-
 api = Namespace('places', description='Place operations')
 
 # Define the models for related entities
@@ -41,7 +40,6 @@ class PlaceList(Resource):
         place_data = api.payload
         if not place_data:
             return {"error": "Missing payload"}, 400
-
         current_user = get_jwt_identity()
         place_data["owner_id"] = current_user["id"]
         try:
@@ -95,15 +93,8 @@ class PlaceResource(Resource):
         if place.owner.id != current_user["id"]:
             return {'error': 'Unauthorized action'}, 403
 
-        place = facade.get_place(place_id)
-        if not place:
-            return {'error': 'Place not found'}, 404
-
-        if str(place.owner.id) != current_user['id']:
-            return {'error': 'Unauthorized action'}, 403
-
         try:
-            place = facade.update_place(place_id, data)
+            facade.update_place(place_id, data)
         except ValueError as e:
             return {'error': str(e)}, 404
         except Exception as e:
