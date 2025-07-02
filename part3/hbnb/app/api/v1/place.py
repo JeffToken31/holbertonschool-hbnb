@@ -85,12 +85,13 @@ class PlaceResource(Resource):
     def put(self, place_id):
         """Update a place's information"""
         current_user = get_jwt_identity()
+        is_admin = current_user['is_admin']
         data = api.payload
         if not data:
             return {'error': 'Missing or invalid JSON payload'}, 400
         place = facade.get_place(place_id)
 
-        if place.owner.id != current_user["id"]:
+        if place.owner.id != current_user["id"] and not is_admin:
             return {'error': 'Unauthorized action'}, 403
 
         try:
