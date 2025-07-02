@@ -118,6 +118,12 @@ class HBnBFacade:
             place_data['amenities'] = amenities
 
         return self.place_repo.update(place_id, place_data)
+    
+    def delete_place(self, place_id):
+        place_exist = self.place_repo.get(place_id)
+        if not place_exist:
+            return None
+        return self.place_repo.delete(place_id)
 
     # Placeholder for amenity
     def create_amenity(self, amenity_data):
