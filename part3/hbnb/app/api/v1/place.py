@@ -26,7 +26,7 @@ place_model = api.model('Place', {
     'latitude': fields.Float(required=True, description='Latitude of the place'),
     'longitude': fields.Float(required=True, description='Longitude of the place'),
     'owner_id': fields.String(required=True, description='ID of the owner'),
-    'amenities': fields.List(fields.String, required=True, description="List of amenities ID's")
+    'amenities': fields.List(fields.String, required=False, description="List of amenities ID's")
 })
 
 
@@ -39,13 +39,11 @@ class PlaceList(Resource):
     def post(self):
         """Register a new place"""
         place_data = api.payload
-
         if not place_data:
             return {"error": "Missing payload"}, 400
 
         current_user = get_jwt_identity()
-        place_data['owner_id'] = current_user['id']
-
+        place_data["owner_id"] = current_user["id"]
         try:
             new_place = facade.create_place(place_data)
         except (TypeError, ValueError) as e:
@@ -84,6 +82,7 @@ class PlaceResource(Resource):
     @api.response(200, 'Place updated successfully')
     @api.response(404, 'Place not found')
     @api.response(400, 'Invalid input data')
+    @api.response(403, 'Unauthorized action')
     @jwt_required()
     def put(self, place_id):
         """Update a place's information"""
@@ -91,6 +90,10 @@ class PlaceResource(Resource):
         data = api.payload
         if not data:
             return {'error': 'Missing or invalid JSON payload'}, 400
+        place = facade.get_place(place_id)
+
+        if place.owner.id != current_user["id"]:
+            return {'error': 'Unauthorized action'}, 403
 
         place = facade.get_place(place_id)
         if not place:

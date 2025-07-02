@@ -1,6 +1,8 @@
 from flask_restx import Namespace, Resource, fields
 from app.services import facade
-from re import match
+from flask_jwt_extended import jwt_required, get_jwt_identity
+import app
+
 
 api = Namespace('users', description='User operations')
 user_model = api.model('User', {
@@ -58,9 +60,25 @@ class UserResource(Resource):
     @api.response(200, 'User details modified successfully')
     @api.response(404, 'User not found')
     @api.response(400, 'Invalid input data')
+    @api.response(403, 'Unauthorized action')
+    @jwt_required()
     def put(self, user_id):
         """Modify user"""
         user_data = api.payload
+        current_user = get_jwt_identity()
+        user = facade.get_user(user_id)
+        if not user:
+            return {'error': 'User not found'}, 404
+
+        if user_id != current_user["id"]:
+            return {'error': 'Unauthorized action'}, 403
+        
+        if 'email' in user_data and user_data['email'] != user.email:
+            return {'error': 'You cannot modify email or password.'}, 400
+        
+        if 'password' in user_data and not app.bcrypt.check_password_hash(user.password, user_data['password']):
+            return {'error': 'You cannot modify email or password.'}, 400
+
         try:
             user_updated = facade.update_user(user_id, user_data)
             if not user_updated:

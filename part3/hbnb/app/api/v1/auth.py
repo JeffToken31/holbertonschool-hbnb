@@ -1,8 +1,11 @@
 from flask_restx import Namespace, Resource, fields
 from flask_jwt_extended import create_access_token
 from app.services import facade
+<<<<<<< HEAD
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
+=======
+>>>>>>> origin/jeff
 
 api = Namespace('auth', description='Authentication operations')
 
@@ -31,7 +34,12 @@ class Login(Resource):
         
         # Step 4: Return the JWT token to the client
         return {'access_token': access_token}, 200
+<<<<<<< HEAD
 
+=======
+    
+from flask_jwt_extended import jwt_required, get_jwt_identity
+>>>>>>> origin/jeff
 
 @api.route('/protected')
 class ProtectedResource(Resource):
