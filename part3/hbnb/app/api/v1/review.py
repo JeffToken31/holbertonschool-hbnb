@@ -27,6 +27,8 @@ class ReviewList(Resource):
         if not place:
             return {'error': 'Place not found'}, 404
 
+        if place.owner.id == current_user_id:
+            return {'error': 'You cannot review your own place.'}
     
         for review in place.reviews:
             if review.user.id == current_user_id:
@@ -78,7 +80,7 @@ class ReviewResource(Resource):
 
         if review.user.id != current_user["id"]:
             return {'error': 'Unauthorized action'}, 403
-        
+
         review_data["user"] = current_user["id"]
         try:
             review_updated = facade.update_review(review_id, review_data)
@@ -86,7 +88,7 @@ class ReviewResource(Resource):
                 return {'error': 'review not found'}, 404
         except (TypeError, ValueError) as e:
             return {'error': str(e)}, 400
-        return {"message": "Review successfully"}, 200
+        return {"message": "Review successfully updated"}, 200
 
     @api.response(200, 'Review deleted successfully')
     @api.response(404, 'Review not found')
