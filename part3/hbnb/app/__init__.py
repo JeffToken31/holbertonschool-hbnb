@@ -16,12 +16,11 @@ def admin_users():
         email = "admin@example.com"
         user = facade.get_user_by_email(email)
         if not user:
-            hashed_pw = bcrypt.generate_password_hash("adminpassword").decode("utf-8")
             user = facade.create_user({
                 "first_name": "Admin",
                 "last_name": "Root",
                 "email": email,
-                "password": hashed_pw
+                "password": "adminpassword"
             })
             user.is_admin = True
             print(f"admin user: {user.email}")
