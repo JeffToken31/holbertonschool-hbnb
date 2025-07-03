@@ -21,6 +21,7 @@ amenity_model = api.model('Amenity', {
 @api.route('/users/')
 class AdminUserCreate(Resource):
     @api.expect(user_model, validate=True)
+    @api.doc(security='Bearer')
     @api.response(201, 'User successfully created')
     @api.response(400, 'Email already registered')
     @api.response(400, 'Invalid input data')
@@ -47,6 +48,7 @@ class AdminUserCreate(Resource):
 @api.route('/users/<user_id>')
 class AdminUserResource(Resource):
     @api.expect(user_model, validate=True)
+    @api.doc(security='Bearer')
     @api.response(200, 'User details modified successfully')
     @api.response(404, 'User not found')
     @api.response(400, 'Invalid input data')
@@ -83,6 +85,7 @@ class AdminUserResource(Resource):
 @api.route('/amenities/')
 class AdminAmenityCreate(Resource):
     @api.expect(amenity_model)
+    @api.doc(security='Bearer')
     @api.response(201, 'Amenity successfully created')
     @api.response(400, 'Invalid input data')
     @jwt_required()
@@ -103,6 +106,7 @@ class AdminAmenityCreate(Resource):
 @api.route('/amenities/<amenity_id>')
 class AdminAmenityModify(Resource):
     @api.expect(amenity_model, validate=True)
+    @api.doc(security='Bearer')
     @api.response(200, 'Amenity updated successfully')
     @api.response(404, 'Amenity not found')
     @api.response(400, 'Invalid input data')

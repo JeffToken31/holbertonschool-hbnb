@@ -12,6 +12,15 @@ from flask_jwt_extended import JWTManager
 bcrypt = Bcrypt()
 jwt = JWTManager()
 
+authorizations = {
+    'Bearer': {
+        'type': 'apiKey',
+        'in': 'header',
+        'name': 'Authorization',
+        'description': "Saisis ton token sous la forme **Bearer &lt;JWT&gt;**",
+    }
+}
+
 def admin_users():
         from app.services import facade
         email = "admin@example.com"
@@ -31,7 +40,7 @@ def admin_users():
 def create_app(config_class="config.DevelopmentConfig"):
     app = Flask(__name__)
     app.config.from_object(config_class)
-    api = Api(app, version='1.0', title='HBnB API', description='HBnB Application API', doc="/api/v1/docs")
+    api = Api(app, version='1.0', title='HBnB API', description='HBnB Application API',authorizations=authorizations, doc="/api/v1/docs")
     bcrypt.init_app(app)
     jwt.init_app(app)
 
