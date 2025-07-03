@@ -46,25 +46,6 @@ class HBnBFacade:
     def get_all_users(self):
         return self.user_repo.get_all()
 
-    def create_default_admin():
-    admin_email = "admin@example.com"
-    existing = facade.get_user_by_email(admin_email)
-    if not existing:
-        admin_data = {
-            "email": admin_email,
-            "password": "SuperSecurePassword123!",
-            "name": "Admin",
-            "is_admin": True
-        }
-        try:
-            facade.create_user(admin_data)
-            print("✅ Admin user created.")
-        except Exception as e:
-            print(f"Failed to create admin user: {str(e)}")
-    else:
-        print("Admin user already exists.")
-
-
     # Placeholder method for place
     def create_place(self, place_data):
         price = place_data.get('price')
@@ -137,6 +118,12 @@ class HBnBFacade:
             place_data['amenities'] = amenities
 
         return self.place_repo.update(place_id, place_data)
+
+    def delete_place(self, place_id):
+        place_exist = self.place_repo.get(place_id)
+        if not place_exist:
+            return None
+        return self.place_repo.delete(place_id)
 
     # Placeholder for amenity
     def create_amenity(self, amenity_data):
