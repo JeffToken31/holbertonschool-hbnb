@@ -11,6 +11,22 @@ from flask_jwt_extended import JWTManager
 bcrypt = Bcrypt()
 jwt = JWTManager()
 
+def admin_users():
+        from app.services import facade
+        email = "admin@example.com"
+        user = facade.get_user_by_email(email)
+        if not user:
+            hashed_pw = bcrypt.generate_password_hash("adminpassword").decode("utf-8")
+            user = facade.create_user({
+                "first_name": "Admin",
+                "last_name": "Root",
+                "email": email,
+                "password": hashed_pw
+            })
+            user.is_admin = True
+            print(f"admin user: {user.email}")
+        else:
+            print(f"User already exists: {user.email}")
 
 def create_app(config_class="config.DevelopmentConfig"):
     app = Flask(__name__)
@@ -29,4 +45,5 @@ def create_app(config_class="config.DevelopmentConfig"):
     # Register the review namespace
     api.add_namespace(place_ns, path='/api/v1/places')
 
+    admin_users()
     return app
