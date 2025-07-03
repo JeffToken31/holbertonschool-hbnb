@@ -6,11 +6,11 @@ from app.api.v1.review import api as review_ns
 from app.api.v1.place import api as place_ns
 from app.api.v1.auth import api as auth_ns
 from app.api.v1.admin import api as admin_ns
-from flask_bcrypt import Bcrypt
-from flask_jwt_extended import JWTManager
+from extensions import bcrypt
+from extensions import jwt
+from extensions import db
 
-bcrypt = Bcrypt()
-jwt = JWTManager()
+
 
 authorizations = {
     'Bearer': {
@@ -22,6 +22,7 @@ authorizations = {
 }
 
 def admin_users():
+        """Creat an user at app's launch"""
         from app.services import facade
         email = "admin@example.com"
         user = facade.get_user_by_email(email)
@@ -43,6 +44,7 @@ def create_app(config_class="config.DevelopmentConfig"):
     api = Api(app, version='1.0', title='HBnB API', description='HBnB Application API',authorizations=authorizations, doc="/api/v1/docs")
     bcrypt.init_app(app)
     jwt.init_app(app)
+    db.init_app(app)
 
     api.add_namespace(auth_ns, path='/api/v1/auth')
     # Register the users namespace
