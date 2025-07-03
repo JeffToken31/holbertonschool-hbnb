@@ -22,14 +22,25 @@ class UserList(Resource):
     def post(self):
         """Register a new user"""
         user_data = api.payload
+        user_data.pop('is_admin', None)  # ← Protection contre une élévation de privilège
+
         existing_user = facade.get_user_by_email(user_data['email'])
         if existing_user:
             return {'error': 'Email already registered'}, 400
+
         try:
             new_user = facade.create_user(user_data)
-        except (TypeError, ValueError) as e:
-            return {'error': str(e)}, 400
-        return {"id": new_user.id, "message": "User registered successfully"}, 201
+        except TypeError as e:
+            return {'error': f'Type error: {str(e)}'}, 400
+        except ValueError as e:
+            return {'error': f'Value error: {str(e)}'}, 400
+        except Exception as e:
+            return {'error': f'Unexpected error: {str(e)}'}, 500
+        return {
+            "id": new_user.id,
+            "is_admin": new_user.is_admin,
+            "message": "User registered successfully"
+        }, 201
 
     @api.response(200, 'the list of users is successfully retrieved')
     def get(self):
@@ -72,10 +83,10 @@ class UserResource(Resource):
 
         if user_id != current_user["id"]:
             return {'error': 'Unauthorized action'}, 403
-        
+
         if 'email' in user_data and user_data['email'] != user.email:
             return {'error': 'You cannot modify email or password.'}, 400
-        
+
         if 'password' in user_data and not app.bcrypt.check_password_hash(user.password, user_data['password']):
             return {'error': 'You cannot modify email or password.'}, 400
 

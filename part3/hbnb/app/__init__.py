@@ -5,34 +5,45 @@ from app.api.v1.amenities import api as amenity_ns
 from app.api.v1.review import api as review_ns
 from app.api.v1.place import api as place_ns
 from app.api.v1.auth import api as auth_ns
-from app.extends import bcrypt
-from app.extends import jwt
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 
 bcrypt = Bcrypt()
 jwt = JWTManager()
 
-
+def admin_users():
+        from app.services import facade
+        email = "admin@example.com"
+        user = facade.get_user_by_email(email)
+        if not user:
+            hashed_pw = bcrypt.generate_password_hash("adminpassword").decode("utf-8")
+            user = facade.create_user({
+                "first_name": "Admin",
+                "last_name": "Root",
+                "email": email,
+                "password": hashed_pw
+            })
+            user.is_admin = True
+            print(f"admin user: {user.email}")
+        else:
+            print(f"User already exists: {user.email}")
 
 def create_app(config_class="config.DevelopmentConfig"):
     app = Flask(__name__)
     app.config.from_object(config_class)
     api = Api(app, version='1.0', title='HBnB API', description='HBnB Application API', doc="/api/v1/docs")
-    app.config["JWT_SECRET_KEY"] = "my-very-strong-and-long-secret-key-1234567890"
-
-    bcrypt.init_app(app)
-    jwt.init_app(app)
     bcrypt.init_app(app)
     jwt.init_app(app)
 
     api.add_namespace(auth_ns, path='/api/v1/auth')
     # Register the users namespace
-
     api.add_namespace(users_ns, path='/api/v1/users')
+    # Register the amenity namespace
     api.add_namespace(amenity_ns, path='/api/v1/amenities')
+    # Register the review namespace
     api.add_namespace(review_ns, path='/api/v1/reviews')
+    # Register the review namespace
     api.add_namespace(place_ns, path='/api/v1/places')
-    api.add_namespace(auth_ns, path='/api/v1/auth')
 
+    admin_users()
     return app
