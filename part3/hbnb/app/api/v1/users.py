@@ -22,25 +22,14 @@ class UserList(Resource):
     def post(self):
         """Register a new user"""
         user_data = api.payload
-        user_data.pop('is_admin', None)  # ← Protection contre une élévation de privilège
-
         existing_user = facade.get_user_by_email(user_data['email'])
         if existing_user:
             return {'error': 'Email already registered'}, 400
-
         try:
             new_user = facade.create_user(user_data)
-        except TypeError as e:
-            return {'error': f'Type error: {str(e)}'}, 400
-        except ValueError as e:
-            return {'error': f'Value error: {str(e)}'}, 400
-        except Exception as e:
-            return {'error': f'Unexpected error: {str(e)}'}, 500
-        return {
-            "id": new_user.id,
-            "is_admin": new_user.is_admin,
-            "message": "User registered successfully"
-        }, 201
+        except (TypeError, ValueError) as e:
+            return {'error': str(e)}, 400
+        return {"id": new_user.id, "message": "User registered successfully"}, 201
 
     @api.response(200, 'the list of users is successfully retrieved')
     def get(self):
