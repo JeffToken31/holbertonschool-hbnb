@@ -5,6 +5,7 @@ from app.api.v1.amenities import api as amenity_ns
 from app.api.v1.review import api as review_ns
 from app.api.v1.place import api as place_ns
 from app.api.v1.auth import api as auth_ns
+from app.api.v1.admin import api as admin_ns
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 
@@ -41,8 +42,11 @@ def create_app(config_class="config.DevelopmentConfig"):
     api.add_namespace(amenity_ns, path='/api/v1/amenities')
     # Register the review namespace
     api.add_namespace(review_ns, path='/api/v1/reviews')
-    # Register the review namespace
+    # Register the place namespace
     api.add_namespace(place_ns, path='/api/v1/places')
+    # Register the admin namespace
+    api.add_namespace(admin_ns, path='/api/v1/admin')
+
 
     admin_users()
     return app
