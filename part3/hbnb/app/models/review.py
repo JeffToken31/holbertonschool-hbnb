@@ -1,13 +1,21 @@
 from app.models.baseModel import BaseModel
-from app.persistence.repository import InMemoryRepository
 from app.models.users import User
 from app.models.place import Place
+from extensions import db
 '''
 Place class inherite of base model and is linked to one place_owner
 '''
 
 
 class Review(BaseModel):
+    """
+    Define user class
+    """
+    __tablename__ = 'users'
+
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
+    
     def __init__(self, text, rating, place, user):
         """
         Initialize a review by multiple parameters given

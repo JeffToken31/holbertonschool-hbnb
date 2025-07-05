@@ -70,9 +70,6 @@ class User(BaseModel):
             raise ValueError("enter a valid email")
         return email
 
-    @property
-    def password(self):
-        return self._password
 
     @password.setter
     def password(self, password):
