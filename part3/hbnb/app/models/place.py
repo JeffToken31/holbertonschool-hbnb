@@ -1,5 +1,5 @@
 from app.models.baseModel import BaseModel
-from sqlalchemy.orm import validates
+from sqlalchemy.orm import validates, relationship
 from extensions import db
 """
 Represents a place in HBnB, with title, location,
@@ -17,7 +17,7 @@ class Place(BaseModel):
     price = db.Column(db.Float(precision=2), nullable=False)
     latitude = db.Column(db.Float(precision=6), nullable=False)
     longitude = db.Column(db.Float(precision=6), nullable=False)
-    owner = db.Column(db.String(128), nullable=False)
+    owner = db.Column(db.String(128), db.ForeignKey('user.id'), nullable=False)
     description = db.Column(db.String(516), nullable=True)
 
 
