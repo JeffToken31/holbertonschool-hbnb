@@ -16,27 +16,9 @@ authorizations = {
     'Bearer': {
         'type': 'apiKey',
         'in': 'header',
-        'name': 'Authorization',
-        'description': "Saisis ton token sous la forme **Bearer &lt;JWT&gt;**",
+        'name': 'Authorization'
     }
 }
-
-def admin_users():
-        """Creat an user at app's launch"""
-        from app.services import facade
-        email = "admin@example.com"
-        user = facade.get_user_by_email(email)
-        if not user:
-            user = facade.create_user({
-                "first_name": "Admin",
-                "last_name": "Root",
-                "email": email,
-                "password": "adminpassword"
-            })
-            user.is_admin = True
-            print(f"admin user: {user.email}")
-        else:
-            print(f"User already exists: {user.email}")
 
 def create_app(config_class="config.DevelopmentConfig"):
     app = Flask(__name__)
@@ -58,6 +40,4 @@ def create_app(config_class="config.DevelopmentConfig"):
     # Register the admin namespace
     api.add_namespace(admin_ns, path='/api/v1/admin')
 
-
-    admin_users()
     return app

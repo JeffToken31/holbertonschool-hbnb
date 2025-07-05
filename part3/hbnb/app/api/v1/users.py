@@ -1,7 +1,8 @@
 from flask_restx import Namespace, Resource, fields
 from app.services import facade
 from flask_jwt_extended import jwt_required, get_jwt_identity
-import app
+from extensions import bcrypt
+
 
 
 api = Namespace('users', description='User operations')
@@ -76,7 +77,7 @@ class UserResource(Resource):
         if 'email' in user_data and user_data['email'] != user.email:
             return {'error': 'You cannot modify email or password.'}, 400
         
-        if 'password' in user_data and not app.bcrypt.check_password_hash(user.password, user_data['password']):
+        if 'password' in user_data and not bcrypt.check_password_hash(user.password, user_data['password']):
             return {'error': 'You cannot modify email or password.'}, 400
 
         try:

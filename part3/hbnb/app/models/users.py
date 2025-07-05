@@ -1,6 +1,7 @@
 from app.models.baseModel import BaseModel
 from re import match
 from extensions import bcrypt, db
+from sqlalchemy.orm import validates
 
 '''
 User class inherits from base model and has place and review instances
@@ -16,9 +17,9 @@ class User(BaseModel):
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(120), nullable=False, unique=True)
-    password = db.Column(db.String(128), nullable=False)
+    _password = db.Column(db.String(128), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
-    place = db.relationship("place.id",)
+
 
     def __init__(self, first_name, last_name, email, password, is_admin=False):
         """
@@ -42,46 +43,32 @@ class User(BaseModel):
         self.is_admin = is_admin
 
 
-    @property
-    def first_name(self):
-        return self._first_name
-
-    @first_name.setter
-    def first_name(self, first_name):
+    @validates("first_name")
+    def validate_first_name(self, _, first_name):
         if not isinstance(first_name, str):
             raise TypeError("first_name must be a string")
         elif len(first_name) > 50:
             raise ValueError("first_name must be 50 characters max")
         else:
-            self._first_name = first_name
+            return first_name
 
-    @property
-    def last_name(self):
-        return self._last_name
-
-    @last_name.setter
-    def last_name(self, last_name):
+    @validates("last_name")
+    def validate_last_name(self, _, last_name):
         if not isinstance(last_name, str):
             raise TypeError("last_name must be a string")
-        elif len(last_name) > 50:
+        if len(last_name) > 50:
             raise ValueError("last_name must be 50 characters max")
-        else:
-            self._last_name = last_name
+        return last_name
 
-    @property
-    def email(self):
-        return self._email
-
-    @email.setter
-    def email(self, email):
+    @validates("email")
+    def validate_email(self, _, email):
         if not isinstance(email, str):
             raise TypeError("email must be a string")
-        elif not match(
+        if not match(
                         r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
                         email):
             raise ValueError("enter a valid email")
-        else:
-            self._email = email
+        return email
 
     @property
     def password(self):

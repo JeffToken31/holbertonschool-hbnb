@@ -1,4 +1,3 @@
-import app
 from flask_restx import Namespace, Resource, fields
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from app.services import facade
@@ -28,6 +27,7 @@ class AdminUserCreate(Resource):
     @jwt_required()
     def post(self):
         current_user = get_jwt_identity()
+        print(get_jwt_identity())
         if not current_user.get('is_admin'):
             return {'error': 'Admin privileges required'}, 403
 
