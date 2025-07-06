@@ -1,13 +1,24 @@
 from app.models.baseModel import BaseModel
-from app.persistence.repository import InMemoryRepository
 from app.models.users import User
 from app.models.place import Place
+from extensions import db
+from sqlalchemy.orm import validates
 '''
 Place class inherite of base model and is linked to one place_owner
 '''
 
 
 class Review(BaseModel):
+    """
+    Define review class
+    """
+    __tablename__ = 'reviews'
+
+    text = db.Column(db.String(516), nullable=False)
+    rating = db.Column(db.SmallInteger(), nullable=False)
+    place_id = db.Column(db.String(36), db.ForeignKey('places.id', ondelete='CASCADE'), nullable=False)
+    user_id = db.Column(db.String(36), db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+
     def __init__(self, text, rating, place, user):
         """
         Initialize a review by multiple parameters given
@@ -22,83 +33,44 @@ class Review(BaseModel):
         """
         super().__init__()
 
+        self.text = text
+        self.rating = rating
+        self.place = place
+        self.user = user
+
+    @validates("text")
+    def validate_text(self, _, text):
         if not isinstance(text, str):
             raise TypeError("text must be a string")
-        elif len(text) == 0:
-            raise ValueError("text must be not empty")
-        else:
-            self._text = text
+        return text
 
+    @validates("rating")
+    def validate_rating(self, _, rating):
         if not isinstance(rating, int):
             raise TypeError("rating must be a int")
         elif rating < 1 or rating > 5:
             raise ValueError("rating must be between 1 and 5")
-        else:
-            self._rating = rating
+        return rating
 
-        if not isinstance(place, Place):
-            raise TypeError("place must be an instance of Place")
-        else:
-            self._place = place
+    @validates("place")
+    def validate_place(self, _, place):
+        if not hasattr(place, 'id'):
+            raise ValueError("Invalid place")
+        return place
 
-        if not isinstance(user, User):
-            raise TypeError("user must be an instance of User")
-        else:
-            self._user = user
-
-    @property
-    def text(self):
-        return self._text
-
-    @text.setter
-    def text(self, text):
-        if not isinstance(text, str):
-            raise TypeError("text must be a string")
-        else:
-            self._text = text
-
-    @property
-    def rating(self):
-        return self._rating
-
-    @rating.setter
-    def rating(self, rating):
-        if not isinstance(rating, int):
-            raise TypeError("rating must be a int")
-        elif rating < 1 or rating > 5:
-            raise ValueError("rating must be between 1 and 5")
-        else:
-            self._rating = rating
-
-    @property
-    def place(self):
-        return self._place
-
-    @place.setter
-    def place(self, place):
-        if not isinstance(place, Place):
-            raise TypeError("place must be an instance of Place")
-        else:
-            self._place = place
-
-    @property
-    def user(self):
-        return self._user
-
-    @user.setter
-    def user(self, user):
-        if not isinstance(user, User):
-            raise TypeError("user must be an instance of User")
-        else:
-            self._user = user
+    @validates("user")
+    def validate_user(self, _, user):
+        if not hasattr(user, 'id'):
+            raise ValueError("Invalid user")
+        return user
 
     def to_dict(self):
         return {
             'id': self.id,
-            'text': self._text,
-            'rating': self._rating,
-            'place': self._place.id,
-            'user': self._user.id
+            'text': self.text,
+            'rating': self.rating,
+            'place': self.place,
+            'user': self.user
         }
 
     def __str__(self):

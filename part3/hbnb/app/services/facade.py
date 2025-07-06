@@ -1,4 +1,5 @@
-from app.persistence.repository import InMemoryRepository
+from app.persistence.repository import UserRepository, PlaceRepository
+from app.persistence.repository import ReviewRepository, AmenityRepository
 from app.models.users import User
 from app.models.amenities import Amenity
 from app.models.review import Review
@@ -7,17 +8,17 @@ from app.models.place import Place
 
 class HBnBFacade:
     def __init__(self):
-        self.user_repo = InMemoryRepository()
-        self.place_repo = InMemoryRepository()
-        self.review_repo = InMemoryRepository()
-        self.amenity_repo = InMemoryRepository()
+        self.user_repo = UserRepository()
+        self.place_repo = PlaceRepository()
+        self.review_repo = ReviewRepository()
+        self.amenity_repo = AmenityRepository()
 
     # Placeholder method for user
     def create_user(self, user_data):
         '''
         This function is called by API, it's keep and
         destructurate data with ** into elements "key: value,"
-        add In-memory and return data of user
+        add in db and return data of user
         '''
 
         user = User(**user_data)
@@ -41,7 +42,7 @@ class HBnBFacade:
         return self.user_repo.get(user_id)
 
     def get_user_by_email(self, email):
-        return self.user_repo.get_by_attribute('email', email)
+        return self.user_repo.get_user_by_email(email)
 
     def get_all_users(self):
         return self.user_repo.get_all()
