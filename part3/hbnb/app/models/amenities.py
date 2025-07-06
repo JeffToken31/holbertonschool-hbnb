@@ -11,7 +11,7 @@ class Amenity(BaseModel):
     """
     Define amenity class
     """
-    __tablename__ = 'amenity'
+    __tablename__ = 'amenities'
 
     name = db.Column(db.String(100), nullable=False)
 

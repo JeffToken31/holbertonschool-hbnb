@@ -12,12 +12,12 @@ class Review(BaseModel):
     """
     Define review class
     """
-    __tablename__ = 'review'
+    __tablename__ = 'reviews'
 
     text = db.Column(db.String(516), nullable=False)
     rating = db.Column(db.SmallInteger(), nullable=False)
-    place_id = db.Column(db.String(128), db.ForeignKey('place.id', ondelete='CASCADE'), nullable=False)
-    user_id = db.Column(db.String(128), db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+    place_id = db.Column(db.String(36), db.ForeignKey('places.id', ondelete='CASCADE'), nullable=False)
+    user_id = db.Column(db.String(36), db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
 
     def __init__(self, text, rating, place, user):
         """

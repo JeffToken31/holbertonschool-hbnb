@@ -7,15 +7,15 @@ price, owner, amenities, and reviews.
 """
 """ Association tables many_to_many"""
 place_amenity = db.Table('place_amenity',
-    db.Column('place_id', db.String(36), db.ForeignKey('place.id'), primary_key=True),
-    db.Column('amenity_id', db.String(36), db.ForeignKey('amenity.id'), primary_key=True)
+    db.Column('place_id', db.String(36), db.ForeignKey('places.id'), primary_key=True),
+    db.Column('amenity_id', db.String(36), db.ForeignKey('amenities.id'), primary_key=True)
 )
 
 class Place(BaseModel):
     """
     Define Place class
     """
-    __tablename__ = 'place'
+    __tablename__ = 'places'
 
     title = db.Column(db.String(100), nullable=False)
     price = db.Column(db.Float(precision=2), nullable=False)
