@@ -2,7 +2,6 @@ from app.models.baseModel import BaseModel
 from re import match
 from extensions import bcrypt, db
 from sqlalchemy.orm import validates
-
 '''
 User class inherits from base model and has place and review instances
 '''
@@ -19,6 +18,9 @@ class User(BaseModel):
     email = db.Column(db.String(120), nullable=False, unique=True)
     _password = db.Column(db.String(128), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
+    places = db.relationship('Place', backref='owner', lazy=True)
+    reviews = db.relationship('Review', backref='user', lazy=True, cascade='all, delete-orphan', passive_deletes=True)
+
 
 
     def __init__(self, first_name, last_name, email, password, is_admin=False):
@@ -41,6 +43,8 @@ class User(BaseModel):
         self.email = email
         self.password = password
         self.is_admin = is_admin
+        self.places = []
+        self.reviews = []
 
 
     @validates("first_name")
@@ -64,9 +68,7 @@ class User(BaseModel):
     def validate_email(self, _, email):
         if not isinstance(email, str):
             raise TypeError("email must be a string")
-        if not match(
-                        r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-                        email):
+        if not match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email):
             raise ValueError("enter a valid email")
         return email
 

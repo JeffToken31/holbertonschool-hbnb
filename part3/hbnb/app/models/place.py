@@ -1,11 +1,15 @@
 from app.models.baseModel import BaseModel
-from sqlalchemy.orm import validates, relationship
+from sqlalchemy.orm import validates
 from extensions import db
 """
 Represents a place in HBnB, with title, location,
 price, owner, amenities, and reviews.
 """
-
+""" Association tables many_to_many"""
+place_amenity = db.Table('place_amenity',
+    db.Column('place_id', db.String(36), db.ForeignKey('place.id'), primary_key=True),
+    db.Column('amenity_id', db.String(36), db.ForeignKey('amenity.id'), primary_key=True)
+)
 
 class Place(BaseModel):
     """
@@ -17,8 +21,11 @@ class Place(BaseModel):
     price = db.Column(db.Float(precision=2), nullable=False)
     latitude = db.Column(db.Float(precision=6), nullable=False)
     longitude = db.Column(db.Float(precision=6), nullable=False)
-    owner = db.Column(db.String(128), db.ForeignKey('user.id'), nullable=False)
+    owner_id = db.Column(db.String(36), db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     description = db.Column(db.String(516), nullable=True)
+
+    reviews = db.relationship('Review', backref='place', lazy=True, cascade='all, delete-orphan', passive_deletes=True)
+    amenities = db.relationship('Amenity', secondary=place_amenity, backref='places', lazy=True)
 
 
     def __init__(self, title, price, latitude, longitude, owner, description="", amenities=[], reviews={}):
@@ -32,8 +39,8 @@ class Place(BaseModel):
         self.longitude = longitude
         self.owner = owner
         self.description = description
-        """ self.amenities = []
-        self.reviews = [{}]"""
+        self.amenities = amenities
+        self.reviews = reviews
 
     @validates("title")
     def validate_title(self, _, title):
@@ -44,7 +51,7 @@ class Place(BaseModel):
         return title
     
     @validates("description")
-    def validate_descrition(self, _, description):
+    def validate_description(self, _, description):
         if description is not None and not isinstance(description, str):
             raise TypeError("Description must be a string")
         return description
@@ -72,12 +79,6 @@ class Place(BaseModel):
         elif longitude < -180 or longitude > 180:
             raise ValueError("Longitude must be between -180 and 180")
         return longitude
-
-    @validates("owner")
-    def validate_owner(self, _, owner):
-        if not hasattr(owner, 'id'):
-            raise ValueError("Invalid owner")
-        return owner
 
     def add_review(self, review):
         """Add a review to the place"""

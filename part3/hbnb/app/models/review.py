@@ -16,9 +16,8 @@ class Review(BaseModel):
 
     text = db.Column(db.String(516), nullable=False)
     rating = db.Column(db.SmallInteger(), nullable=False)
-    place = db.Column(db.String(128), nullable=False)
-    user = db.Column(db.String(128), nullable=False)
-
+    place_id = db.Column(db.String(128), db.ForeignKey('place.id', ondelete='CASCADE'), nullable=False)
+    user_id = db.Column(db.String(128), db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
 
     def __init__(self, text, rating, place, user):
         """
@@ -55,24 +54,23 @@ class Review(BaseModel):
 
     @validates("place")
     def validate_place(self, _, place):
-        if not isinstance(place, Place):
-            raise TypeError("place must be an instance of Place")
+        if not hasattr(place, 'id'):
+            raise ValueError("Invalid place")
         return place
 
     @validates("user")
     def validate_user(self, _, user):
-        if not isinstance(user, User):
-            raise TypeError("user must be an instance of User")
-        else:
-            self._user = user
+        if not hasattr(user, 'id'):
+            raise ValueError("Invalid user")
+        return user
 
     def to_dict(self):
         return {
             'id': self.id,
             'text': self.text,
             'rating': self.rating,
-            'place': self.place.id,
-            'user': self._user.id
+            'place': self.place,
+            'user': self.user
         }
 
     def __str__(self):

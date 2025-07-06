@@ -1,6 +1,7 @@
 from app.models.baseModel import BaseModel
 from extensions import db
 from sqlalchemy.orm import validates
+from app.models.place import place_amenity
 '''
 Ammenity class inherite of base model and is linked to one place
 '''
@@ -12,7 +13,7 @@ class Amenity(BaseModel):
     """
     __tablename__ = 'amenity'
 
-    title = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
 
     def __init__(self, name):
         """
@@ -25,7 +26,7 @@ class Amenity(BaseModel):
         """
         super().__init__()
 
-        self._name = name
+        self.name = name
 
     @validates("name")
     def validate_name(self, _, name):
@@ -36,7 +37,7 @@ class Amenity(BaseModel):
         return name
 
     def to_dict(self):
-        return {'name': self._name,
+        return {'name': self.name,
                 'id': self.id}
 
     def __str__(self):
