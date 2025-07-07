@@ -41,8 +41,8 @@ CREATE TABLE IF NOT EXISTS place_amenity (
     place_id VARCHAR(36) NOT NULL,
     amenity_id VARCHAR(36) NOT NULL,
     PRIMARY KEY (place_id, amenity_id),
-    FOREIGN KEY(place_id) REFERENCES places (id),
-    FOREIGN KEY(amenity_id) REFERENCES amenities (id)
+    FOREIGN KEY(place_id) REFERENCES places (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY(amenity_id) REFERENCES amenities (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- Creation of review table
