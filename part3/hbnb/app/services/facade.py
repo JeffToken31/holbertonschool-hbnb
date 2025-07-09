@@ -47,6 +47,12 @@ class HBnBFacade:
     def get_all_users(self):
         return self.user_repo.get_all()
 
+    def delete_user(self, user_id):
+        user_exist = self.user_repo.get(user_id)
+        if not user_exist:
+            return None
+        return self.user_repo.delete(user_id)
+
     # Placeholder method for place
     def create_place(self, place_data):
         price = place_data.get('price')
@@ -145,6 +151,13 @@ class HBnBFacade:
             return None
         self.amenity_repo.update(amenity_id, amenity_data)
         return amenity_exist
+
+    def delete_amenity(self, amenity_id):
+        amenity_exist = self.amenity_repo.get(amenity_id)
+        if not amenity_exist:
+            return None
+        return self.amenity_repo.delete(amenity_id)
+
 
     # Placeholder for review
 
