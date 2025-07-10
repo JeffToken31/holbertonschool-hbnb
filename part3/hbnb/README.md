@@ -1,6 +1,6 @@
-# 📘 HBNB RESTful API Project
+# 📘 HBNB RESTful API Project - Part3
 
-This project is a minimalist web backend for a simplified HBNB platform, built using Python and Flask. It follows a modular architecture, making the codebase clean, maintainable, and scalable. The application exposes RESTful API endpoints to manage users, places, reviews, and amenities.
+This part of the project extends the RESTful features of the HBNB platform with several key enhancements. It introduces a persistent SQL database, a secure authentication system (including password hashing), and relational data models (e.g., users, places, reviews). These additions make the backend more reliable, structured, and secure, bringing it closer to the standards used in real-world web applications.
 
 ---
 
@@ -26,7 +26,7 @@ This project is a minimalist web backend for a simplified HBNB platform, built u
 
 ### 👁️ Overview
 
-You can view the project structure by running: `tree``:
+You can view the project structure by running: `tree`:
 
 ```
 .
@@ -38,10 +38,13 @@ You can view the project structure by running: `tree``:
     │   │   ├── __init__.py
     │   │   └── v1
     │   │       ├── __init__.py
+    │   │       ├── admin.py
     │   │       ├── amenities.py
+    │   │       ├── auth.py
     │   │       ├── place.py
     │   │       ├── review.py
     │   │       └── users.py
+    │   ├── extends.py
     │   ├── models
     │   │   ├── __init__.py
     │   │   ├── amenities.py
@@ -64,10 +67,20 @@ You can view the project structure by running: `tree``:
     │   └── tests
     │       ├── test_amenity.py
     │       ├── test_place.py
+    │       ├── test_review.py
     │       └── test_user.py
     ├── config.py
+    ├── extensions.py
+    ├── instance
+    │   └── development.db
     ├── requirements.txt
-    └── run.py
+    ├── run.py
+    └── sql
+        ├── crud.sql
+        ├── initial_datas.sql
+        ├── passwd_hasher.py
+        ├── tables_creation.sql
+        └── uuid_generator.py
 ```
 
 ### 📄 `README.md`
@@ -90,6 +103,45 @@ You can view the project structure by running: `tree``:
 - Lists all the Python packages the project needs.
 - You install them using `pip install -r requirements.txt`.
 
+### 📄 `extensions.py`
+
+- Defines and initializes Flask extensions used throughout the project (e.g., database, authentication).
+
+- Centralizes extension instances to be imported easily in other parts of the app.
+
+### 📄 `sql/`
+
+- Contains SQL scripts and utilities related to the database setup and data manipulation:
+
+    `crud.sql`
+
+    - Contains SQL commands for Create, Read, Update, and Delete operations on database tables.
+
+    `initial_datas.sql`
+
+    - Inserts initial seed data into the database to populate tables with example content.
+
+    `passwd_hasher.py`
+
+    - Python utility for hashing and verifying passwords securely before storing them.
+
+    `tables_creation.sql`
+
+    - SQL script that defines and creates all necessary database tables and schemas.
+
+    `uuid_generator.py`
+
+    - Utility to generate unique identifiers (UUIDs) used as primary keys for database records.
+
+
+### 📄 `instance/`
+
+- Contains environment-specific files and database storage:
+
+    `development.db`
+
+    - SQLite database file used during development to store all persistent data locally.
+
 ---
 
 ## 📁 `app/` – Main Application Code
@@ -100,6 +152,16 @@ This folder holds all the logic for how the app works.
 
 - Tells Python that `app` is a package.
 - Used to initialize things if needed when the app is loaded.
+
+### 📄 `app/extends.py`
+
+- Initializes key Flask extensions used throughout the project.
+
+    `bcrypt`: handles password hashing and verification for security.
+
+    `jwt`: manages authentication and JWT token handling.
+
+    `db`: SQLAlchemy instance to interact with the database via ORM.
 
 ---
 
@@ -121,27 +183,30 @@ Files inside:
 - `place.py`: defines routes related to places (e.g. homes or apartments).
 - `review.py`: defines routes for handling user reviews.
 - `users.py`: defines routes for user actions (create account, list users, etc.).
+- `auth.py`: manages user authentication and JWT token generation.
+- `admin.py`: contains admin-only routes for managing users and amenities with proper access control.
 - `__init__.py`: groups all these files so they can be used together in the app.
 
-### 📝 Snippet code of an API route (app/api/amenities.py)
+
+### 📝 Snippet code of an API route (app/api/auth.py)
 
 ```python
-@api.route('/')
-class AmenityList(Resource):
-    @api.expect(amenity_model)
-    @api.response(201, 'Amenity successfully created')
-    @api.response(400, 'Invalid input data')
+@api.route('/login')
+class Login(Resource):
+    @api.expect(login_model)
     def post(self):
-        """Register a new amenity"""
-        amenity_data = api.payload
+        """Authenticate user and return a JWT token"""
+        credentials = api.payload
 
-        try:
-            new_amenity = facade.create_amenity(amenity_data)
-        except (TypeError, ValueError) as e:
-            return {'error': str(e)}, 400
+        user = facade.get_user_by_email(credentials['email'])
+        if not user or not user.verify_password(credentials['password']):
+            return {'error': 'Invalid credentials'}, 401
+
+        access_token = create_access_token(identity={'id': str(user.id), 'is_admin': user.is_admin})
+        return {'access_token': access_token}, 200
 ```
 
-This code defines a POST endpoint to create a new amenity. It expects data matching amenity_model and returns appropriate HTTP responses depending on whether the creation succeeds or fails due to invalid data.
+This code defines a POST endpoint to authenticate users by verifying their email and password. If successful, it returns a JWT token; otherwise, it responds with an error.
 
 ---
 
@@ -160,20 +225,28 @@ Files inside:
 - `users.py`: defines the User model (name, email, etc.).
 - `__init__.py`: makes this folder a Python package.
 
-### 📝 Snippet code of a data model (app/models/users.py)
+### 📝 Snippet code of a data model (app/models/place.py)
 
 ```python
-if not isinstance(first_name, str):
-            raise TypeError("first_name must be a string")
-        elif len(first_name) > 50:
-            raise ValueError("first_name must be 50 characters max")
-        else:
-            self._first_name = first_name
+class Place(BaseModel):
+    """
+    Define Place class
+    """
+    __tablename__ = 'places'
+
+    title = db.Column(db.String(100), nullable=False)
+    price = db.Column(db.Float(precision=2), nullable=False)
+    latitude = db.Column(db.Float(precision=6), nullable=False)
+    longitude = db.Column(db.Float(precision=6), nullable=False)
+    owner_id = db.Column(db.String(36), db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+    description = db.Column(db.String(516), nullable=True)
+
+    reviews = db.relationship('Review', backref='place', lazy=True, cascade='all, delete-orphan', passive_deletes=True)
+    amenities = db.relationship('Amenity', secondary=place_amenity, backref='places', lazy=True)
 ```
 
-Here’s a simpler version including the file reference:
+This code defines a `Place` model with attributes such as title, price, latitude, longitude, and an optional description. It includes a foreign key `owner_id` that links each place to a user (the owner). The model also establishes two relationships: a one-to-many link with `Review` (a place can have multiple reviews) and a many-to-many association with `Amenity` (a place can offer several amenities, and each amenity can belong to multiple places).
 
-This code from users.py checks that first_name is a string and not longer than 50 characters. If it isn’t, it raises an error to keep the data correct.
 
 👉 You will **add methods** in these files (like `to_dict()`, `update()`, etc.) to define what each model can do.
 
@@ -181,13 +254,13 @@ This code from users.py checks that first_name is a string and not longer than 5
 
 ### 📁 `app/persistence/` – Saving and Loading Data
 
-This folder is for the **persistence layer**, meaning how data is stored and retrieved.
+This folder contains the persistence layer, which defines how data is stored and retrieved, whether in memory or in a database. The main file, `repository.py`, defines a generic `Repository` interface with standard methods like `add()`, `get()`, `update()`, and `delete()`, and provides multiple implementations.
 
-Files inside:
+- `InMemoryRepository` uses a Python dictionary to store objects temporarily, making it ideal for testing.
 
-- `repository.py`: defines a `Repository` class with functions like `save()`, `get_by_id()`, `delete()`, etc.
-- `InMemoryRepository` is a simple implementation that uses a Python dictionary to store objects in memory.
-- `__init__.py`: just makes the folder a package.
+- `SQLAlchemyRepository` handles database interactions using SQLAlchemy and is extended by `UserRepository`, `PlaceRepository`, `AmenityRepository`, and `ReviewRepository`, each targeting a specific model. `UserRepository` also includes a method for retrieving users by email.
+
+The `__init__.py` file simply makes this folder a Python package.
 
 ### 📝 Snippet code of a persistence class (app/persistence/repository.py)
 
@@ -200,7 +273,7 @@ class InMemoryRepository(Repository):
         self._storage[obj.id] = obj
 ```
 
-This code from repository.py shows how objects are saved in memory using a dictionary. Each object is stored with its id as the key, making it easy to retrieve or update.
+This example shows how the InMemoryRepository works: it stores each object in a dictionary using the object’s ID as a key, making it easy to retrieve, update, or delete later. This pattern is particularly useful for development or unit testing without a real database.
 
 👉 This layer helps you keep the storage logic **separate** from your business logic and routes.
 
@@ -208,32 +281,46 @@ This code from repository.py shows how objects are saved in memory using a dicti
 
 ### 📁 `app/services/` – Application Logic (The Facade)
 
-This is where the **main logic** of the app lives, between the API and the database.
+This is where the core logic of the app lives — between the API and the database. It handles the validation, coordination, and orchestration of operations involving multiple entities (users, places, reviews, etc.).
 
 Files inside:
 
-- `facade.py`: this is the **central manager** of the app logic. It is implemented as a **singleton**, which means there is only **one shared instance** used throughout the app.
-  This helps keep everything consistent (like handling all business rules in one place).
+- `facade.py`: the central manager of the app logic. It's designed as a singleton to ensure only one instance is used across the app, maintaining consistency and shared state if needed.
 
-- `__init__.py`: makes the folder a Python package.
+- It uses repository classes to interact with the database, and exposes high-level methods like `create_user()`, `get_place()`, or `update_review()` that the API routes can directly call.
+
+- `__init__.py`: marks the folder as a Python package.
 
 ### 📝 Snippet code of a service function (app/services/facade.py)
 
 ```python
 def get_place(self, place_id):
-        place = self.place_repo.get(place_id)
-        if not place:
-            raise ValueError("Place not found.")
-        return place
+    place = self.place_repo.get(place_id)
+    if not place:
+        raise ValueError("Place not found.")
+    return place
 ```
 
-This code from facade.py tries to find a place by its ID. If no place is found, it raises an error to let the system know the place doesn’t exist.
+This function fetches a place by its ID. If it doesn’t exist, it raises an error. It’s part of the app logic that ensures proper checks before returning or modifying data.
 
-👉 The facade uses the repository to interact with the data, and it's used by the routes to perform actions.
+👉 The facade encapsulates all business logic, ensures data is validated, and acts as the bridge between the repositories and the API routes.
 
 ---
 
 ## 🌐 API Endpoints
+
+
+### 🛡️ Admin
+
+| Method | Endpoint                          | Description                                 |
+|--------|-----------------------------------|---------------------------------------------|
+| POST   | /api/v1/admin/users                     | Create a new user (Admin only)              |
+| PUT    | /api/v1/admin/users/<user_id>           | Modify any user details (Admin only)        |
+| POST   | /api/v1/admin/amenities                 | Add a new amenity (Admin only)              |
+| PUT    | /api/v1/admin/amenities/<amenity_id>    | Modify amenity details (Admin only)         |
+| PUT    | /api/v1/admin/places/<place_id>         | Modify any place (Admin bypass ownership)   |
+| PUT    | /api/v1/admin/reviews/<review_id>       | Modify any review (Admin bypass ownership)  |
+| DELETE | /api/v1/admin/reviews/<review_id>       | Delete any review (Admin bypass ownership)  |
 
 ### 👤 Users
 
@@ -309,6 +396,7 @@ curl -X POST "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application
 
 // 200 OK
 ```
+---
 
 ## 🧪 Testing Invalid Data for a User
 
@@ -333,6 +421,7 @@ curl -X POST "http://127.0.0.1:5000/api/v1/users/" \
   "error": "Invalid input data"
 }
 ```
+---
 
 ## 📚 Swagger Documentation Access
 
@@ -347,6 +436,8 @@ To access the Swagger UI, which documents and allows you to test all API endpoin
 <http://127.0.0.1:5000/api/v1/docs>
 
 This page is automatically generated by Flask-RESTx based on your API models and helps you explore the API, see request/response details, and try out endpoints interactively.
+
+---
 
 ## 🔍 Running Unit Tests with unittest
 
@@ -387,6 +478,170 @@ OK
 
 This means all tests ran successfully without errors.
 
+---
+
+## 🗃️ Database Implementation
+
+This project uses SQLAlchemy as an ORM to manage a relational database (MySQL or SQLite). Each model (`User`, `Place`, `Review`, etc.) corresponds to a table with typed columns, constraints, and foreign keys. Relationships are explicitly declared (e.g., One-to-Many between User and Place, Many-to-Many between `Place` and `Amenity` via an association table).
+
+<br>
+
+All `CRUD operations` are handled via a shared `SQLAlchemy session`, ensuring data consistency and transaction control. This setup enables efficient querying, filtering, and relationships similar to those used in real-world applications.
+
+---
+
+### 📊 Relational Database Model
+
+The diagram below outlines the database structure used in this project. It shows the main entities (users, places, reviews, etc.) and how they relate to one another. This relational model is implemented using SQLAlchemy to ensure consistent and scalable data management.
+
+
+```mermaid
+erDiagram
+    USER {
+        string id
+        string first_name
+        string last_name
+        string email
+        string password
+        boolean is_admin
+    }
+
+    PLACE {
+        string id
+        string title
+        string description
+        float price
+        float latitude
+        float longitude
+        string owner_id
+    }
+
+    REVIEW {
+        string id
+        string text
+        int rating
+        string user_id
+        string place_id
+    }
+
+    AMENITY {
+        string id
+        string name
+    }
+
+    PLACE_AMENITY {
+        string place_id
+        string amenity_id
+    }
+
+    USER ||--o{ PLACE : owns
+    USER ||--o{ REVIEW : writes
+    PLACE ||--o{ REVIEW : has
+    PLACE ||--o{ PLACE_AMENITY : includes
+    AMENITY ||--o{ PLACE_AMENITY : listed_in
+```
+
+#### User owns Place
+`Relation: USER ||--o{ PLACE`
+- A user (USER) can own multiple places (PLACE).
+Each place is linked to a single owner (owner_id).
+This represents a one-to-many relationship between user and place.
+
+#### User writes Review
+`Relation: USER ||--o{ REVIEW`
+- A user can write multiple reviews (REVIEW).
+Each review is linked to a single user (user_id).
+One-to-many relationship between user and review.
+
+#### Place has Review
+`Relation: PLACE ||--o{ REVIEW`
+- A place can have multiple reviews.
+Each review is linked to a single place (place_id).
+One-to-many relationship between place and review.
+
+#### Place includes Place_amenity
+`Relation: PLACE ||--o{ PLACE_AMENITY`
+- A place can have multiple associations with amenities via the PLACE_AMENITY table.
+This table links a place to multiple amenities.
+One-to-many relationship between place and PLACE_AMENITY.
+
+#### Amenity listed_in Place_amenity
+`Relation: AMENITY ||--o{ PLACE_AMENITY`
+- An amenity (AMENITY) can be linked to multiple places via the PLACE_AMENITY table.
+One-to-many relationship between amenity and PLACE_AMENITY.
+
+---
+
+### 📦 Dependencies to install
+
+
+To run this project (Part 3: Authentication and Database), install the following Python libraries using pip:
+
+```
+pip install Flask Flask-JWT-Extended Flask-Bcrypt Flask-SQLAlchemy mysqlclient
+```
+
+- **Flask**: Lightweight and flexible web framework
+
+<br>
+
+- **Flask-JWT-Extended**: JWT token management for secure authentication
+
+<br>
+
+- **Flask-Bcrypt**: Secure password hashing
+
+<br>
+
+- **Flask-SQLAlchemy**: ORM for database manipulation (SQLite for development, MySQL for production)
+
+<br>
+
+- **mysqlclient**: MySQL client, required only for production environments using MySQL
+
+`Note: SQLite is used by default in development, so mysqlclient is optional and only needed for production setup.`
+
+---
+
+### 🔍 Exploring a Practical SQL Query
+
+```
+SELECT
+    first_name,
+    last_name,
+    title,
+    price
+FROM
+    users
+    JOIN places ON users.id = places.owner_id;
+```
+#### Query Breakdown:
+
+- **Tables involved**:
+This query uses two tables: `users` and `places`.
+
+
+- **Purpose**:
+The goal is to fetch information about users and the places they own. Specifically, it retrieves each user's first and last names along with the title and price of their owned places.
+
+
+- **The JOIN operation**:
+The `JOIN` clause combines rows from both tables based on a condition. Here, the condition `users.id = places.owner_id` matches each place to its owner by linking the user's unique ID (`users.id`) with the owner ID recorded in the `places table` (`owner_id`).
+
+
+- **Result**:
+For every user who owns at least one place, the query returns a row per place showing:
+
+    - The user's `first_name` and `last_name`
+
+    - The place’s `title` and `price`
+
+
+- **Important note**:
+Users without any owned places will not appear in the result because `JOIN` (which is an INNER JOIN) only returns matched records.
+
+---
+
 ## 🔧 Technologies & Tools
 
 <p align="center">
@@ -400,7 +655,13 @@ This means all tests ran successfully without errors.
   <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" />
   <img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black"/>
   <img src="https://img.shields.io/badge/VS%20Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Flask--JWT--Extended-grey?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/SQLAlchemy-CCA776?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/pip-3775A9?style=for-the-badge&logo=pypi&logoColor=white" />
+  <img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white" />
 </p>
+
+---
 
 ## 🧠 Additional Notes
 
@@ -409,6 +670,8 @@ This means all tests ran successfully without errors.
   `routes (api)` → `facade (services)` → `repository (persistence)` → `models`.
 - The facade is **singleton-based**: only one instance exists to handle logic, which helps avoid bugs and confusion.
 - You can easily extend the project by adding new models, routes, or features.
+
+---
 
 ## 🧑‍🏫 Authors
 
