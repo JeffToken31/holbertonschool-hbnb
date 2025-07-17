@@ -9,10 +9,12 @@
 <body>
     <header>
         <nav>
+            <img src="images/logo.png" alt="logo">
             <a href="login.html" id="login-link">Login</a>
         </nav>
     </header>
     <main>
+        <h1>Available places</h1>
         <section id="filter">
             <label for="price-filter">Max Price:</label>
             <select id="price-filter">
@@ -22,7 +24,9 @@
         <section id="places-list">
             <!-- List of places will be populated dynamically -->
         </section>
+        <div id="footer-dyn"></div>
     </main>
     <script src="scripts.js"></script>
+    <script type="module" src="footer.js"></script>
 </body>
 </html>
