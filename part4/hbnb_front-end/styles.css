@@ -2,8 +2,26 @@
   This is a SAMPLE File to get you started. Follow the instructions on the project to complete the tasks. 
   You'll probably need to override some of theese styles.
 */
+:root {
+  --color-primary: #ff385c;
+  --color-primary-hover: #b32640;
+  --color-secondary: #007a87;
+  --color-secondary-light: #48a9a6;
+  --color-text: #333;
+  --color-bg: #ededed;
+  --color-white: #fff;
 
-* {
+  --font-sans: 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: 'Georgia', serif;
+  --font-mono: 'Courier New', monospace;
+
+  --border-radius: 10px;
+  --box-shadow: 0 2px 8px var(--color-shadow);
+}
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -11,18 +29,18 @@
 }
 
 body {
-  background-color: #f4f4f4;
-  color: #333;
+  background-color: var(--color-white);
+  color: var(--color-text);
 }
 
 header {
-  background-color: #333;
-  color: #fff;
+  background-color: var(--color-bg);
+  color: var(--color-text);
   padding: 1rem;
 }
 
 nav a {
-  color: #fff;
+  color: var(--color-text);
   text-decoration: none;
   margin-left: 1rem;
 }
