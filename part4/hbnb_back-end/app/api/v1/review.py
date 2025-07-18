@@ -17,6 +17,8 @@ class ReviewList(Resource):
     @api.expect(review_model)
     @api.response(201, 'Review successfully created')
     @api.response(400, 'Invalid input data')
+    @api.response(403, 'Unauthorized action')
+    @api.response(404, 'Not found')
     @jwt_required()
     def post(self):
         """Register a new review"""
@@ -28,7 +30,7 @@ class ReviewList(Resource):
             return {'error': 'Place not found'}, 404
 
         if place.owner.id == current_user_id:
-            return {'error': 'You cannot review your own place.'}
+            return {'error': 'You cannot review your own place.'}, 403
     
         for review in place.reviews:
             if review.user.id == current_user_id:

@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:5000';
+const API_BASE_URL = 'http://localhost:5000/api/v1';
 
 /* Fetch all places (get) */
 export async function getAllPlaces() {
@@ -34,7 +34,7 @@ export async function getPlaceId(placeId) {
 
 export async function getReviewByPlace(placeId) {
     try {
-        const response = await fetch(API_BASE_URL + '/places/' + placeId  + '/reviews')
+        const response = await fetch(API_BASE_URL + '/reviews/places/' + placeId  + '/reviews')
         if (!response.ok) {
             throw new Error("Problem with loading API");
         }
