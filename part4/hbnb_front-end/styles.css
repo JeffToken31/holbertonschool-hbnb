@@ -225,7 +225,7 @@ nav a:hover {
   padding: 3px;
 }
 
-#review-form button {
+button {
   border: 1px solid #ddd;
   box-shadow: var(--box-shadow);
   border-radius: 8px;
@@ -233,8 +233,29 @@ nav a:hover {
   padding: 5px;
   background-color: var(--color-primary);
   color: var(--color-bg2);
+  font-weight: 700;
 }
 
-#review-form button:hover {
+button:hover {
   background-color: var(--color-primary-hover);
+}
+
+/* Login Page */
+
+#login-form {
+  display: flex;
+  flex-direction: column;
+  width: 30vw;
+  margin: 0 auto;
+  font-weight: 700;
+}
+
+#email,
+#password {
+  border: 1px solid #ddd;
+  box-shadow: var(--box-shadow);
+  border-radius: 8px;
+  background-color: var(--color-bg2);
+  padding: 3px;
+  text-align: center;
 }
