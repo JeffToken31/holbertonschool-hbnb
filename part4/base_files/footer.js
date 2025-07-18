@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    /* Footer module */
     const footerDyn = document.getElementById('footer-dyn');
 
     fetch('footer.html')

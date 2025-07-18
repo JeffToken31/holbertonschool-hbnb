@@ -4,6 +4,8 @@
 */
 
 document.addEventListener('DOMContentLoaded', () => {
+
+  /* Add option price max dynamically */
   const priceFilter = document.getElementById('price-filter');
   const options = [
     { value: '', text: "All"},
