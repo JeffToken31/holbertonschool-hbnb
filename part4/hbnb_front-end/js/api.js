@@ -35,21 +35,28 @@ export async function loginUser(email, password) {
         }
     }
 }
-/*
-/* Fetch all places (get) 
-export async function getAllPlaces() {
+/* Fetch all places (get) */
+export async function fetchPlaces(token) {
     try {
-        const response = await fetch(API_BASE_URL + '/places')
+        const response = await fetch(API_BASE_URL + '/places/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
         if (!response.ok) {
             throw new Error("Problem with loading API");
         }
         const placeObjet = await response.json();
+        console.log("Places data:", placeObjet);
         return placeObjet
     } catch (error) {
         console.error("loading problem:", error)
         throw error;
     }
-}*/
+}
 
 /* Fetch place by ID (get)
 export async function getPlaceId(placeId) {

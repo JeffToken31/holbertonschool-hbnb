@@ -58,6 +58,7 @@ class PlaceList(Resource):
             result.append({
                 'id': place.id,
                 'title': place.title,
+                'price': place.price,
                 'latitude': place.latitude,
                 'longitude': place.longitude
             })

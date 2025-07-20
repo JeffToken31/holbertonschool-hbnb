@@ -96,6 +96,7 @@ class Place(BaseModel):
             'id': self.id,
             'title': self.title,
             'description': self.description,
+            'price': self.price,
             'latitude': self.latitude,
             'longitude': self.longitude,
             'owner': {
