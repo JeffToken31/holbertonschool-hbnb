@@ -2,9 +2,22 @@
   This is a SAMPLE FILE to get you started.
   Please, follow the project instructions to complete the tasks.
 */
+import { loginUser } from './api.js';
+
 
 document.addEventListener('DOMContentLoaded', () => {
+  /* fetch data send via loginform */
+  const loginForm = document.getElementById('login-form');
 
+  if (loginForm) {
+    loginForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      loginUser(email, password);
+    });
+}
   /* Add option price max dynamically */
   const priceFilter = document.getElementById('price-filter');
   const options = [
