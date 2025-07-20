@@ -11,29 +11,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (loginForm) {
     loginForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
+      event.preventDefault();
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
-      
+
       loginUser(email, password);
     });
 }
   /* Add option price max dynamically */
   const priceFilter = document.getElementById('price-filter');
-  const options = [
-    { value: '', text: "All"},
-    { value: '100', text: "100$"},
-    { value: '150', text: "150$"},
-    { value: '200', text: "200$"},
-    { value: '250', text: "250$"},
-    { value: '300', text: "300$"}
-  ];
 
-  for (const opt of options) {
-    const option = document.createElement('option');
-    option.value = opt.value;
-    option.textContent = opt.text;
-    priceFilter.appendChild(option);
+  /* if condition to handle dom error beaucause filter is not on all page */
+  if (priceFilter) {
+    const options = [
+      { value: '', text: "All" },
+      { value: '100', text: "100$" },
+      { value: '150', text: "150$" },
+      { value: '200', text: "200$" },
+      { value: '250', text: "250$" },
+      { value: '300', text: "300$" }
+    ];
+
+    for (const opt of options) {
+      const option = document.createElement('option');
+      option.value = opt.value;
+      option.textContent = opt.text;
+      priceFilter.appendChild(option);
+    }
   }
 });
 

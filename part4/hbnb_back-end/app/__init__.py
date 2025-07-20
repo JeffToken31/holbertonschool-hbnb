@@ -23,7 +23,7 @@ authorizations = {
 
 def create_app(config_class="config.DevelopmentConfig"):
     app = Flask(__name__)
-    CORS(app, origins="http://127.0.0.1:3000/")
+    CORS(app)
     app.config.from_object(config_class)
     api = Api(app, version='1.0', title='HBnB API', description='HBnB Application API',authorizations=authorizations, doc="/api/v1/docs")
     bcrypt.init_app(app)

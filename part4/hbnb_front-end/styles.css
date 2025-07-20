@@ -238,6 +238,7 @@ button {
 
 button:hover {
   background-color: var(--color-primary-hover);
+  transform: translateY(-1px);
 }
 
 /* Login Page */
@@ -258,4 +259,18 @@ button:hover {
   background-color: var(--color-bg2);
   padding: 3px;
   text-align: center;
+}
+
+.error {
+  color: var(--color-primary);
+  animation: alert 1s infinite;
+}
+
+@keyframes alert {
+  from {
+    color: var(--color-primary);
+  }
+  to {
+    color: var(--color-primary-hover);
+  }
 }

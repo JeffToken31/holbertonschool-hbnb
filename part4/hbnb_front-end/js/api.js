@@ -3,7 +3,7 @@ const API_BASE_URL = 'http://localhost:5000/api/v1';
 
 /* post email and password to api and receive JWT */
 export async function loginUser(email, password) {
-    const response = await fetch(API_BASE_URL +'/login', {
+    const response = await fetch(API_BASE_URL +'/auth/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -11,16 +11,32 @@ export async function loginUser(email, password) {
         body: JSON.stringify({ email, password })
     });
 
+    const errorEmail = document.getElementById("erroremail");
+    const errorPwd = document.getElementById("errorpassword");
+    errorEmail.textContent = '';
+    errorPwd.textContent = '';
+
     if (response.ok) {
-      const data = await response.json();
-      document.cookie = `token=${data.access_token}; path=/`;
-      window.location.href = 'index.html';
+        const data = await response.json();
+        console.log(data)
+        document.cookie = `token=${data.access_token}; path=/`;
+        window.location.href = 'index.html';
+        console.log(document.cookie)
     } else {
-      alert('Login failed: ' + response.statusText);
+
+        const data = await response.json();
+        console.log(data.error);
+        if (data.error == ("Invalid email")) {
+            errorEmail.innerHTML = `&#9888; ${data.error}`;
+        } else if (data.error == ("Invalid password")) {
+            errorEmail.innerHTML = `&#9888; ${data.error}`;
+        } else {
+            errorEmail.textContent = "Ca craint !!!";
+        }
     }
 }
-
-/* Fetch all places (get) */
+/*
+/* Fetch all places (get) 
 export async function getAllPlaces() {
     try {
         const response = await fetch(API_BASE_URL + '/places')
@@ -33,9 +49,9 @@ export async function getAllPlaces() {
         console.error("loading problem:", error)
         throw error;
     }
-}
+}*/
 
-/* Fetch place by ID (get) */
+/* Fetch place by ID (get)
 export async function getPlaceId(placeId) {
     try {
         const response = await fetch(API_BASE_URL + '/places/' + placeId)
@@ -48,9 +64,9 @@ export async function getPlaceId(placeId) {
         console.error("loading problem:", error)
         throw error;
     }
-}
+} */
 
-/* Fetch review by place ID (get) */
+/* Fetch review by place ID (get) 
 
 export async function getReviewByPlace(placeId) {
     try {
@@ -64,4 +80,4 @@ export async function getReviewByPlace(placeId) {
         console.error("loading problem:", error)
         throw error;
     }
-}
+} */
