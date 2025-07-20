@@ -1,5 +1,25 @@
 const API_BASE_URL = 'http://localhost:5000/api/v1';
 
+
+/* post email and password to api and receive JWT */
+export async function loginUser(email, password) {
+    const response = await fetch(API_BASE_URL +'/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      document.cookie = `token=${data.access_token}; path=/`;
+      window.location.href = 'index.html';
+    } else {
+      alert('Login failed: ' + response.statusText);
+    }
+}
+
 /* Fetch all places (get) */
 export async function getAllPlaces() {
     try {

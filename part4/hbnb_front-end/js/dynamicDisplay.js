@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(err => console.error("Footer Error:", err));
     
       /*Hidden form review if user is not logged */
-  const isLoggedIn = true; // Simulation (tu changeras ça plus tard)
+  const isLoggedIn = false; // Simulation (tu changeras ça plus tard)
     const reviewSection = document.getElementById("add-review");
 
     if (!isLoggedIn) {
