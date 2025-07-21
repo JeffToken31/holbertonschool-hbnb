@@ -1,14 +1,10 @@
-/* 
-  This is a SAMPLE FILE to get you started.
-  Please, follow the project instructions to complete the tasks.
-*/
-import { loginUser, fetchPlaces } from './api.js';
-
+import { fetchPlaces } from './api.js';
+import { getCookie } from './utils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+
   checkAuthentication();
 
-  /* display place on index page */
   const divPlaces = document.getElementById('places-list');
 
     function displayPlaces(places) {
@@ -37,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!token) {
         loginLink.style.display = 'block';
+        return;
     } else {
         loginLink.style.display = 'none';
       // Fetch places data if the user is authenticated
@@ -50,35 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-
-  function getCookie(name) {
-    // Function to get a cookie value by its name
-    const token = parseCookies()
-    return token[name]
-  }
-  /* Utils to parse cookie into object */
-  function parseCookies() {
-    const cookies = {};
-    document.cookie.split('; ').forEach(cookie => {
-        const [key, value] = cookie.split('=');
-        cookies[key] = value;
-    });
-    return cookies;
-  }
-  
-  /* fetch data send via loginform */
-  const loginForm = document.getElementById('login-form');
-
-  if (loginForm) {
-    loginForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-
-      loginUser(email, password);
-    });
-}
-  /* Add option price max dynamically */
+ /* Add option price max dynamically */
   const priceFilter = document.getElementById('price-filter');
 
   /* if condition to handle dom error beaucause filter is not on all page */
@@ -119,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Iterate over the places and show/hide them based on the selected price
     });
   }
-});
 
-  /*---------------------------------*/
+
+
+})
