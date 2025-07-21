@@ -29,7 +29,7 @@ export async function loginUser(email, password) {
         if (data.error == ("Invalid email")) {
             errorEmail.innerHTML = `&#9888; ${data.error}`;
         } else if (data.error == ("Invalid password")) {
-            errorEmail.innerHTML = `&#9888; ${data.error}`;
+            errorPwd.innerHTML = `&#9888; ${data.error}`;
         } else {
             errorEmail.textContent = "Ca craint !!!";
         }

@@ -9,24 +9,27 @@ document.addEventListener('DOMContentLoaded', () => {
   checkAuthentication();
 
   /* display place on index page */
-  function displayPlaces(places) {
-    // Clear the current content of the places list
-    const divPlaces = document.getElementById('places-list');
-    divPlaces.textContent = "";
-    // Iterate over the places data
-    // For each place, create a div element and set its content
-    // Append the created element to the places list
-    places.forEach((place) => {
-      const card = document.createElement('div');
-      card.classList.add("place-card");
-      card.innerHTML = `
+  const divPlaces = document.getElementById('places-list');
+  if (divPlaces) {
+    function displayPlaces(places) {
+      // Clear the current content of the places list
+      divPlaces.textContent = "";
+      // Iterate over the places data
+      // For each place, create a div element and set its content
+      // Append the created element to the places list
+      places.forEach((place) => {
+        const card = document.createElement('div');
+        card.classList.add("place-card");
+        card.setAttribute('data-price', place.price);
+        card.innerHTML = `
                 <h3 class="place-title">${place.title}</h3>
                 <p class="place-price"><strong>Price per night: </strong>${place.price}$</p>
                 <a href="place.html?id=${place.id}" class="details-button">View Details</a>
                 `;
-      divPlaces.appendChild(card);
-    })
-}
+        divPlaces.appendChild(card);
+      })
+    }
+  }
   /* Check authentication the display place list */
   async function checkAuthentication() {
     const token = getCookie('token');
@@ -41,16 +44,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const places = await fetchPlaces(token);
         displayPlaces(places);
       } catch (error) {
-        console.error("error: ", error)
+        console.error("error: ", error);
+        throw error;
       }
     }
   }
+
+
   function getCookie(name) {
     // Function to get a cookie value by its name
     const token = parseCookies()
-    if (!token) {
-      return null
-    }
     return token[name]
   }
   /* Utils to parse cookie into object */
@@ -81,12 +84,10 @@ document.addEventListener('DOMContentLoaded', () => {
   /* if condition to handle dom error beaucause filter is not on all page */
   if (priceFilter) {
     const options = [
-      { value: '', text: "All" },
+      { value: '10', text: "10$" },
+      { value: '50', text: "50$" },
       { value: '100', text: "100$" },
-      { value: '150', text: "150$" },
-      { value: '200', text: "200$" },
-      { value: '250', text: "250$" },
-      { value: '300', text: "300$" }
+      { value: 'all', text: "All" }
     ];
 
     for (const opt of options) {
@@ -95,6 +96,28 @@ document.addEventListener('DOMContentLoaded', () => {
       option.textContent = opt.text;
       priceFilter.appendChild(option);
     }
+  }
+
+  if (priceFilter) {
+    document.getElementById('price-filter').addEventListener('change', async (event) => {
+      const cardPlaces = document.getElementsByClassName("place-card");
+      const price_max = priceFilter.value;
+
+      for (const card of cardPlaces) {
+        const pricestr = card.dataset.price;
+        const price = parseFloat(pricestr);
+        if (price_max === 'all') {
+          card.style.display = 'block';
+        } else {
+          if (price <= parseFloat(price_max)) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        }
+      }
+      // Iterate over the places and show/hide them based on the selected price
+    });
   }
 });
 
