@@ -132,6 +132,7 @@ nav a:hover {
 
 #price-filter {
   font-size: 0.85rem;
+  margin: 0 auto;
   box-shadow: 1.5px 1.5px 1.5px 1.5px lightgray;
   border: 0.7px solid #333;
   border-radius: 4px;
