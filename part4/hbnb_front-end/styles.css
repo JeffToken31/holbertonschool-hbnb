@@ -275,3 +275,7 @@ button:hover {
     color: var(--color-primary-hover);
   }
 }
+
+.place-amenities li {
+  list-style-type: none;
+}

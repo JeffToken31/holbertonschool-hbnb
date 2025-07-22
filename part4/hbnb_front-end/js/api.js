@@ -58,20 +58,30 @@ export async function fetchPlaces(token) {
     }
 }
 
-/* Fetch place by ID (get)
-export async function getPlaceId(placeId) {
+/* Fetch place by ID (get) */
+export async function fetchPlaceDetails(token, placeId) {
+    // Make a GET request to fetch place details
+    // Include the token in the Authorization header
     try {
-        const response = await fetch(API_BASE_URL + '/places/' + placeId)
+        const response = await fetch(API_BASE_URL + '/places/' + placeId, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
         if (!response.ok) {
             throw new Error("Problem with loading API");
         }
-        const placeIdObjet = await response.json();
-        return placeIdObjet
+        // Handle the response and pass the data to displayPlaceDetails function
+        const placeObjet = await response.json();
+        return placeObjet
     } catch (error) {
         console.error("loading problem:", error)
         throw error;
     }
-} */
+}
 
 /* Fetch review by place ID (get) 
 
