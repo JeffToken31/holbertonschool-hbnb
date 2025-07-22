@@ -82,19 +82,3 @@ export async function fetchPlaceDetails(token, placeId) {
         throw error;
     }
 }
-
-/* Fetch review by place ID (get) 
-
-export async function getReviewByPlace(placeId) {
-    try {
-        const response = await fetch(API_BASE_URL + '/reviews/places/' + placeId  + '/reviews')
-        if (!response.ok) {
-            throw new Error("Problem with loading API");
-        }
-        const reviewsObjet = await response.json();
-        return reviewsObjet
-    } catch (error) {
-        console.error("loading problem:", error)
-        throw error;
-    }
-} */
