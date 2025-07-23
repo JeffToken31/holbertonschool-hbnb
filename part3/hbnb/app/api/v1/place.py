@@ -31,7 +31,6 @@ place_model = api.model('Place', {
 
 @api.route('/')
 class PlaceList(Resource):
-    @api.doc(security='Bearer')
     @api.expect(place_model)
     @api.response(201, 'Place successfully created')
     @api.response(400, 'Invalid input data')
@@ -119,7 +118,7 @@ class PlaceResource(Resource):
         if not place:
             return {'error': 'Place not found'}, 404
 
-        if place.user.id != current_user["id"] and not is_admin:
+        if place.owner_id != current_user["id"] and not is_admin:
             return {'error': 'Unauthorized action'}, 403
 
         facade.delete_place(place_id)
