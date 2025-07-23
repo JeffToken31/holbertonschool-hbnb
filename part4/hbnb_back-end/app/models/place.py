@@ -28,7 +28,7 @@ class Place(BaseModel):
     amenities = db.relationship('Amenity', secondary=place_amenity, backref='places', lazy=True)
 
 
-    def __init__(self, title, price, latitude, longitude, owner, description="", amenities=[], reviews=[]):
+    def __init__(self, title, price, latitude, longitude, owner, description="", amenities=[], reviews={}):
         """Initialize multiple parametres"""
 
         super().__init__()
@@ -96,6 +96,7 @@ class Place(BaseModel):
             'id': self.id,
             'title': self.title,
             'description': self.description,
+            'price': self.price,
             'latitude': self.latitude,
             'longitude': self.longitude,
             'owner': {

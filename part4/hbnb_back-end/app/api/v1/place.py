@@ -43,15 +43,14 @@ class PlaceList(Resource):
         current_user = get_jwt_identity()
         place_data["owner_id"] = current_user["id"]
         try:
-            print(place_data)
             new_place = facade.create_place(place_data)
-            print("after create ")
         except (TypeError, ValueError) as e:
             return {'error': str(e)}, 400
 
         return new_place.to_dict(), 201
 
     @api.response(200, "List of places retrieved successfully")
+    @jwt_required()
     def get(self):
         """Retrieve a list of all places"""
         places = facade.get_all_places()
@@ -60,6 +59,7 @@ class PlaceList(Resource):
             result.append({
                 'id': place.id,
                 'title': place.title,
+                'price': place.price,
                 'latitude': place.latitude,
                 'longitude': place.longitude
             })
@@ -118,7 +118,7 @@ class PlaceResource(Resource):
         if not place:
             return {'error': 'Place not found'}, 404
 
-        if place.owner_id != current_user["id"] and not is_admin:
+        if place.user.id != current_user["id"] and not is_admin:
             return {'error': 'Unauthorized action'}, 403
 
         facade.delete_place(place_id)

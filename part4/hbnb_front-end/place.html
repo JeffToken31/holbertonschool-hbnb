@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place Details</title>
+    <link rel="apple-touch-icon" sizes="57x57" href="images/FaviconionosJB/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="images/FaviconionosJB/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/FaviconionosJB/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="images/FaviconionosJB/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/FaviconionosJB/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="images/FaviconionosJB/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="images/FaviconionosJB/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="images/FaviconionosJB/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/FaviconionosJB/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="images/FaviconionosJB/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/FaviconionosJB/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="images/FaviconionosJB/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/FaviconionosJB/favicon-16x16.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="images/FaviconionosJB/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+            <!-- Header -->
+    <header>
+        <img src="images/logo.png" alt="logo" class="logo">
+        <nav>
+            <a href="index.html">Home Page</a>
+            <a href="login.html" id="login-link" class="login-button">Login</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="place-details">
+        <h2 id="place_title">Place title</h2>
+            <!-- Place details will be populated dynamically -->
+            <div class="place-info">
+                <p class="host"><strong>Host:</strong>...</p>
+                <p class="place-price"><strong>Price per night:</strong>...</p>
+                <p class="place-description"><strong>Description:</strong>...</p>
+                <p class="place-amenities"><strong>Amenities:</strong>...</p>
+            </div>
+        </section>
+        <section id="reviews">
+            <h2>Review</h2>
+            <!-- Reviews will be populated dynamically -->
+            <div class="review-card">
+                <p class="reviewer"><strong>By: </strong>Jacqueline</p>
+                <p class="comment">Wow inbelivable, since, Jacques love me more</p>
+                <p class="rating"><strong>Rating </strong>5/5</p>                
+            </div>             
+            <div class="review-card">
+                <p class="reviewer"><strong>By: </strong>Jacques</p>
+                <p class="comment">Great place to fuck</p>
+                <p class="rating"><strong>Rating </strong>4/5</p>                
+            </div>
+        </section>
+        <section id="add-review">
+            <form id="review-form">
+                <h2>Add a Review</h2>
+                <label for="review">Your Review:</label>
+                <textarea id="review" name="review" required></textarea>
+                <label for="rating">Rating:</label>
+                <select id="rating" name="rating" required>
+                    <!-- Options for rating -->
+                    <option value="">Select</option>
+                    <option value="1">1 Star</option>
+                    <option value="2">2 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="5">5 Stars</option>
+                </select>
+                <button type="submit">Submit Review</button>
+            </form>
+        </section>
+    </main>
+    <div id="footer-dyn"></div>
+    <script type="module" src="js/footer.js" ></script>
+    <script type="module" src="js/place.js" ></script>
+</body>
+</html>

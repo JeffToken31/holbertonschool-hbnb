@@ -1,0 +1,281 @@
+/* 
+  This is a SAMPLE File to get you started. Follow the instructions on the project to complete the tasks. 
+  You'll probably need to override some of theese styles.
+*/
+:root {
+  --color-primary: #eb2c4f;
+  --color-primary-hover: #b32640;
+  --color-secondary: #007a87;
+  --color-secondary-light: #48a9a6;
+  --color-text: #333;
+  --color-bg: #ededed;
+  --color-bg2: #f0f0f0f0;
+  --color-white: #fff;
+  --color-shadow: #909090;
+  --font-sans: 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: 'Georgia', serif;
+  --font-mono: 'Courier New', monospace;
+
+  --border-radius: 10px;
+  --box-shadow: 0 2px 8px var(--color-shadow);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--color-bg);
+  border-radius: 10px;
+  box-shadow: inset 0 0 5px grey;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-shadow);
+}
+
+body {
+  background-color: var(--color-white);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  line-height: 2;
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+main {
+  flex: 1;
+  padding: 2rem;
+  text-align: center;
+  overflow: auto;
+}
+
+footer {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  text-align: center;
+  bottom: 0;
+  width: 100%;
+  min-height: 65px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: -1;
+}
+
+a {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+a:visited {
+  color: var(--color-secondary);
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-right: 30px;
+}
+
+nav a {
+  color: var(--color-text);
+  margin-left: 1rem;
+}
+
+nav a:hover {
+  color: var(--color-primary-hover);
+}
+
+.logo {
+  margin-left: 30px;
+}
+
+#filter label {
+  font-size: 0.95em;
+}
+
+#price-filter {
+  font-size: 0.85rem;
+  margin: 0 auto;
+  box-shadow: 1.5px 1.5px 1.5px 1.5px lightgray;
+  border: 0.7px solid #333;
+  border-radius: 4px;
+  padding: 1px;
+}
+
+#price-filter:hover {
+  transform: translateX(-1px);
+  background-color: var(--color-bg);
+}
+
+#places-list {
+  display: flex;
+  justify-content: center;
+  gap: 8vw;
+}
+
+/* Instruction, to check */
+.place-card,
+.review-card {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: var(--box-shadow);
+  background-color: var(--color-bg);
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.review-card:hover {
+  transform: translateX(5px);
+}
+
+.place-card {
+  min-width: 20vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.place-card:hover {
+  background-color: var(--color-bg);
+  opacity: 0.85;
+}
+
+.place-card a {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-top: 70px;
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+  text-align: center;
+  text-decoration: none;
+  box-shadow: var(--box-shadow);
+}
+
+.place-card a:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-primary-hover);
+}
+
+/* Page place */
+.place-info {
+  border: 1px solid #ddd;
+  box-shadow: var(--box-shadow);
+  border-radius: 8px;
+  background-color: var(--color-bg2);
+  margin: 30px;
+  padding: 40px;
+}
+.comment {
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+#review-form {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin: 30px;
+  font-weight: 700;
+}
+
+#review,
+#rating {
+  border: 1px solid #ddd;
+  box-shadow: var(--box-shadow);
+  border-radius: 8px;
+  background-color: var(--color-bg2);
+  padding: 3px;
+}
+
+button {
+  border: 1px solid #ddd;
+  box-shadow: var(--box-shadow);
+  border-radius: 8px;
+  margin-top: 10px;
+  padding: 5px;
+  background-color: var(--color-primary);
+  color: var(--color-bg2);
+  font-weight: 700;
+}
+
+button:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-1px);
+}
+
+/* Login Page */
+
+#login-form {
+  display: flex;
+  flex-direction: column;
+  width: 30vw;
+  margin: 0 auto;
+  font-weight: 700;
+}
+
+#email,
+#password {
+  border: 1px solid #ddd;
+  box-shadow: var(--box-shadow);
+  border-radius: 8px;
+  background-color: var(--color-bg2);
+  padding: 3px;
+  text-align: center;
+}
+
+.error {
+  color: var(--color-primary);
+  animation: alert 1s infinite;
+}
+
+@keyframes alert {
+  from {
+    color: var(--color-primary);
+  }
+  to {
+    color: var(--color-primary-hover);
+  }
+}
+
+.place-amenities li {
+  list-style-type: none;
+}
