@@ -82,3 +82,19 @@ export async function fetchPlaceDetails(token, placeId) {
         throw error;
     }
 }
+/* Send a review post */
+export async function submitReview(token, placeId, reviewText) {
+    // Make a POST request to submit review data
+    const response = await fetch(API_BASE_URL +'/reviews/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ reviewText, ratingDatas, placeId })
+    });
+    // Include the token in the Authorization header
+    // Send placeId and reviewText in the request body
+    handleResponse(response);
+    // Handle the response
+}

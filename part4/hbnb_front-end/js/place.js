@@ -70,4 +70,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
+    const reviewForm = document.getElementById("review-form");
+    reviewForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const reviewText = document.getElementById('review').ariaValueMax;
+        const ratingDatas = document.getElementById('rating').ariaValueMax;
+        // Get review text from form
+        const token = getCookie('token');
+    
+        const placeId = getPlaceIdFromURL();
+        const response  = submitReview(token, placeId, reviewText, ratingDatas);
+            // Make AJAX request to submit review
+            // Handle the response
+        });
+    
 })

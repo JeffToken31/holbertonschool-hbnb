@@ -31,6 +31,7 @@ place_model = api.model('Place', {
 
 @api.route('/')
 class PlaceList(Resource):
+    @api.doc(security='Bearer')
     @api.expect(place_model)
     @api.response(201, 'Place successfully created')
     @api.response(400, 'Invalid input data')
@@ -43,7 +44,9 @@ class PlaceList(Resource):
         current_user = get_jwt_identity()
         place_data["owner_id"] = current_user["id"]
         try:
+            print(place_data)
             new_place = facade.create_place(place_data)
+            print("after create ")
         except (TypeError, ValueError) as e:
             return {'error': str(e)}, 400
 
