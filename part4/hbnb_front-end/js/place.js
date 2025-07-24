@@ -1,5 +1,5 @@
 import { getCookie } from "./utils.js";
-import { fetchPlaceDetails } from "./api.js";
+import { fetchPlaceDetails, submitReview } from "./api.js";
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -80,8 +80,17 @@ document.addEventListener('DOMContentLoaded', () => {
     
         const placeId = getPlaceIdFromURL();
         const response  = submitReview(token, placeId, reviewText, ratingDatas);
-            // Make AJAX request to submit review
-            // Handle the response
-        });
+        // Make AJAX request to submit review
+        handleResponse(response);
+        // Handle the response
+    });
     
+    function handleResponse(response) {
+    if (response.ok) {
+        alert('Review submitted successfully!');
+        // Clear the form
+    } else {
+        alert('Failed to submit review');
+    }
+}
 })

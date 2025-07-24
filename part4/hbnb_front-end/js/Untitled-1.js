@@ -3,43 +3,38 @@ const API_BASE_URL = 'http://localhost:5000/api/v1';
 
 /* post email and password to api and receive JWT */
 export async function loginUser(email, password) {
-    try {
-        const response = await fetch(API_BASE_URL + '/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-        });
+    const response = await fetch(API_BASE_URL + '/auth/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+    });
 
-        const errorEmail = document.getElementById("erroremail");
-        const errorPwd = document.getElementById("errorpassword");
-        errorEmail.textContent = '';
-        errorPwd.textContent = '';
+    const errorEmail = document.getElementById("erroremail");
+    const errorPwd = document.getElementById("errorpassword");
+    errorEmail.textContent = '';
+    errorPwd.textContent = '';
 
-        if (response.ok) {
-            const data = await response.json();
-            document.cookie = `token=${data.access_token}; path=/`;
-            window.location.href = 'index.html';
+    if (response.ok) {
+        const data = await response.json();
+        console.log(data)
+        document.cookie = `token=${data.access_token}; path=/`;
+        window.location.href = 'index.html';
+        console.log(document.cookie)
+    } else {
+
+        const data = await response.json();
+        console.log(data.error);
+        if (data.error === ("Invalid email")) {
+            errorEmail.innerHTML = `&#9888; ${data.error}`;
+        } else if (data.error === ("Invalid password")) {
+            errorPwd.innerHTML = `&#9888; ${data.error}`;
         } else {
-            const data = await response.json();
-            console.error(data.error);
-            if (data.error === "Invalid email") {
-                errorEmail.innerHTML = `&#9888; ${data.error}`;
-            } else if (data.error === "Invalid password") {
-                errorPwd.innerHTML = `&#9888; ${data.error}`;
-            } else {
-                errorEmail.textContent = "An unexpected error occurred.";
-            }
+            errorEmail.textContent = "Ca craint !!!";
         }
-    } catch (error) {
-        console.error('Login request failed:', error);
-        const errorEmail = document.getElementById("erroremail");
-        // Display a generic network error to the user
-        errorEmail.textContent = 'Network error: Could not connect to the server.';
     }
 }
-
 /* Fetch all places (get) */
 export async function fetchPlaces(token) {
     try {
@@ -87,8 +82,8 @@ export async function fetchPlaceDetails(token, placeId) {
         throw error;
     }
 }
-/* Send a review post */
-export async function submitReview(token, placeId, reviewText, ratingDatas) {
+/* Send a review post 
+export async function submitReview(token, placeId, reviewText) {
     // Make a POST request to submit review data
     const response = await fetch(API_BASE_URL +'/reviews/', {
         method: 'POST',
@@ -100,7 +95,6 @@ export async function submitReview(token, placeId, reviewText, ratingDatas) {
     });
     // Include the token in the Authorization header
     // Send placeId and reviewText in the request body
-    return response;
+    handleResponse(response);
     // Handle the response
-    
-}
+}*/

@@ -118,7 +118,7 @@ class PlaceResource(Resource):
         if not place:
             return {'error': 'Place not found'}, 404
 
-        if place.user.id != current_user["id"] and not is_admin:
+        if place.owner_id != current_user["id"] and not is_admin:
             return {'error': 'Unauthorized action'}, 403
 
         facade.delete_place(place_id)

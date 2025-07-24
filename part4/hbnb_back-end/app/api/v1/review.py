@@ -25,7 +25,7 @@ class ReviewList(Resource):
         user_review = api.payload
         current_user = get_jwt_identity()
         current_user_id = current_user["id"]
-        place = facade.get_place(user_review["place"])
+        place = facade.get_place(user_review["placeId"])
         if not place:
             return {'error': 'Place not found'}, 404
 
