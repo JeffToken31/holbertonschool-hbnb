@@ -157,7 +157,7 @@ class HBnBFacade:
             raise ValueError("User does not exist.")
         if not place:
             raise ValueError("Place does not exist.")
-        text = review_data.get('text')
+        text = str(review_data.get('text'))
         rating = review_data.get('rating')
         review = Review(text, rating, place, user)
         self.review_repo.add(review)

@@ -73,24 +73,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const reviewForm = document.getElementById("review-form");
     reviewForm.addEventListener('submit', async (event) => {
         event.preventDefault();
-        const reviewText = document.getElementById('review').ariaValueMax;
-        const ratingDatas = document.getElementById('rating').ariaValueMax;
+        const reviewText = document.getElementById('review').value;
+        const ratingDatas = document.getElementById('rating').value;
         // Get review text from form
         const token = getCookie('token');
     
         const placeId = getPlaceIdFromURL();
-        const response  = submitReview(token, placeId, reviewText, ratingDatas);
+        try {
+            const response = await submitReview(token, placeId, reviewText, ratingDatas);
+
+            if (response.ok) {
+                alert('Review submitted successfully!');
+                reviewForm.reset();
+                location.reload(); // Reload to see the new review
+            } else {
+                const errorData = await response.json();
+                alert(`Failed to submit review: ${errorData.error || 'Unknown error'}`);
+            }
+        } catch (error) {
+            console.error('Error submitting review:', error);
+            alert('An error occurred while submitting your review.');
+        }
         // Make AJAX request to submit review
-        handleResponse(response);
         // Handle the response
     });
-    
-    function handleResponse(response) {
-    if (response.ok) {
-        alert('Review submitted successfully!');
-        // Clear the form
-    } else {
-        alert('Failed to submit review');
-    }
-}
+
 })
