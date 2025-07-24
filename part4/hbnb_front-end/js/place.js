@@ -1,5 +1,5 @@
 import { getCookie } from "./utils.js";
-import { fetchPlaceDetails, submitReview } from "./api.js";
+import { fetchPlaceDetails, submitReview, fetchReviewDetails } from "./api.js";
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -34,6 +34,24 @@ document.addEventListener('DOMContentLoaded', () => {
         placeDetails.appendChild(cardPlace)
     }
     
+    function displayReviews(reviews) {
+        // Clear the current content of the reviews section
+        const reviewsSection = document.getElementById("reviews");
+        reviewsSection.textContent = '';
+
+        // Iterate over reviewobjet to innerHtlk cardreviews by card
+        reviews.forEach(review => {
+            const cardReview = document.createElement('div');
+            cardReview.classList.add("review-card");
+            cardReview.innerHTML = `
+                <p class="reviewer"><strong>By:</strong> ${review.user.first_name} ${review.user.last_name}</p>
+                <p class="comment">${review.text}</p>
+                <p class="rating"><strong>Rating:</strong> ${review.rating}</p>
+            `;
+            reviewsSection.appendChild(cardReview);
+        });
+    }      
+
     /* Keep url with id selected */
     function getPlaceIdFromURL() {
         // Extract the place ID from window.location.search
@@ -63,7 +81,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const placeId = getPlaceIdFromURL();
                 console.log(placeId);
                 const place = await fetchPlaceDetails(token, placeId);
+                const reviews = await fetchReviewDetails(token, placeId);
                 displayPlaceDetails(place);
+                displayReviews(reviews);
             } catch (error) {
                 console.error("error: ", error);
                 throw error;
@@ -85,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.ok) {
                 alert('Review submitted successfully!');
                 reviewForm.reset();
-                location.reload(); // Reload to see the new review
+                windows.reload();
             } else {
                 const errorData = await response.json();
                 alert(`Failed to submit review: ${errorData.error || 'Unknown error'}`);
@@ -94,7 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error submitting review:', error);
             alert('An error occurred while submitting your review.');
         }
-        // Make AJAX request to submit review
         // Handle the response
     });
 

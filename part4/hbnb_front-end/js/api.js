@@ -68,7 +68,7 @@ export async function fetchPlaceDetails(token, placeId) {
     // Make a GET request to fetch place details
     // Include the token in the Authorization header
     try {
-        const response = await fetch(API_BASE_URL + '/places/' + placeId, {
+        const response = await fetch(`${API_BASE_URL}/places/${placeId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ export async function fetchPlaceDetails(token, placeId) {
 export async function submitReview(token, place, reviewText, ratingDatas) {
     // Make a POST request to submit review data
     try {
-        const response = await fetch(API_BASE_URL + '/reviews/', {
+        const response = await fetch(`${API_BASE_URL}/reviews/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -109,4 +109,29 @@ export async function submitReview(token, place, reviewText, ratingDatas) {
     }
     // Handle the response 
     
+}
+
+/* Fetch review by placeID (get) */
+export async function fetchReviewDetails(token, placeId) {
+    // Make a GET request to fetch review details
+    // Include the token in the Authorization header
+    try {
+        const response = await fetch(`${API_BASE_URL}/reviews/places/${placeId}/reviews`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Problem with loading API");
+        }
+        // Handle the response and pass the data to display reviewDetails function
+        const reviewObjet = await response.json();
+        return reviewObjet
+    } catch (error) {
+        console.error("loading problem:", error)
+        throw error;
+    }
 }

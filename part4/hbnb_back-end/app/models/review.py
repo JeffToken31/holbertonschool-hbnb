@@ -69,7 +69,7 @@ class Review(BaseModel):
             'id': self.id,
             'text': self.text,
             'rating': self.rating,
-            'user': self.user.id,
+            'user': self.user.to_dict(),
             'place': self.place.id
         }
 
