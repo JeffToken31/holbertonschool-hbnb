@@ -33,6 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
   async function checkAuthentication() {
     const token = getCookie('token');
     const loginLink = document.getElementById('login-link');
+    const logoutlink = document.getElementById('logout-link');
+
 
     if (!token) {
       try {
@@ -46,8 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     } else {
       loginLink.style.display = 'none';
-      priceFilter.style.display = 'block';
-      priceLabel.style.display = 'block';
+      logoutlink.style.display = 'block';
       
       // Fetch places data if the user is authenticated
       try {
@@ -99,4 +100,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       priceFilter.appendChild(option);
     }
+  
+  /* Logout button */
+  const logoutLink = document.getElementById('logout-link');
+  logoutLink.addEventListener('click', (event) => {
+    event.preventDefault();
+    document.cookie
 })

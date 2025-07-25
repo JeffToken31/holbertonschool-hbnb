@@ -65,13 +65,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const token = getCookie('token');
         const addReviewSection = document.getElementById('add-review');
         const loginLink = document.getElementById('login-link');
+        const logoutlink = document.getElementById('logout-link');
+        const main = document.getElementsByTagName('main');
 
 
         if (!token) {
             loginLink.style.display = 'block';
             try {
                 const placeId = getPlaceIdFromURL();
-                console.log(placeId);
+
+                if (!placeId) {
+                    main[0].textContent = '';
+                    main[0].innerHTML = `<h1 class="error">It's forbidden bro !</h1>`;
+                    return;
+                }
                 const place = await fetchPlaceDetails(token, placeId);
                 const reviews = await fetchReviewDetails(token, placeId);
                 displayPlaceDetails(place);
@@ -87,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             // Store the token for later use
             loginLink.style.display = 'none';
+            logoutlink.style.display = 'block';
             try {
                 const placeId = getPlaceIdFromURL();
                 console.log(placeId);
@@ -114,8 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok) {
                 alert('Review submitted successfully!');
-                window.location.href = 'index.html';
-
+                window.location.href = `place.html?id=${placeId}`;
             } else {
                 const errorData = await response.json();
                 alert(`Failed to submit review: ${errorData.error || 'Unknown error'}`);

@@ -19,7 +19,7 @@ export async function loginUser(email, password) {
 
         if (response.ok) {
             const data = await response.json();
-            document.cookie = `token=${data.access_token}; path=/`;
+            document.cookie = `token=${data.access_token}; Max-Age = 600; path=/`;
             window.location.href = 'index.html';
         } else {
             const data = await response.json();
@@ -35,7 +35,6 @@ export async function loginUser(email, password) {
     } catch (error) {
         console.error('Login request failed:', error);
         const errorEmail = document.getElementById("erroremail");
-        // Display a generic network error to the user
         errorEmail.textContent = 'Network error: Could not connect to the server.';
     }
 }

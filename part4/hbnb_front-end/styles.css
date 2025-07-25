@@ -147,7 +147,8 @@ nav a:hover {
 #places-list {
   display: flex;
   justify-content: center;
-  gap: 8vw;
+  flex-wrap: wrap;
+  gap: 2rem;
 }
 
 /* Instruction, to check */
@@ -168,9 +169,12 @@ nav a:hover {
 }
 
 .place-card {
-  min-width: 20vw;
+  width: 280px;
+  min-height: 280px;
   display: flex;
   flex-direction: column;
+  margin: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .place-card:hover {
@@ -181,7 +185,7 @@ nav a:hover {
 .place-card a {
   border: 1px solid #ddd;
   border-radius: 5px;
-  margin-top: 70px;
+  margin-top: auto;
   background-color: var(--color-primary);
   color: var(--color-bg);
   text-align: center;
@@ -190,8 +194,8 @@ nav a:hover {
 }
 
 .place-card a:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   background-color: var(--color-primary-hover);
 }
 
@@ -278,4 +282,8 @@ button:hover {
 
 .place-amenities li {
   list-style-type: none;
+}
+
+#logout-link {
+  display: none;
 }
