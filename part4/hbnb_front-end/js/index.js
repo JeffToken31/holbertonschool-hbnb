@@ -35,9 +35,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginLink = document.getElementById('login-link');
 
     if (!token) {
+      try {
+        const places = await fetchPlaces(token);
+        displayPlaces(places);
+      } catch (error) {
+        console.error("error: ", error);
+        throw error;
+      }
       loginLink.style.display = 'block';
-      priceFilter.style.display = 'none';
-      priceLabel.style.display = 'none';
         return;
     } else {
       loginLink.style.display = 'none';

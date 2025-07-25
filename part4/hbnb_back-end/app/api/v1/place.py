@@ -50,7 +50,6 @@ class PlaceList(Resource):
         return new_place.to_dict(), 201
 
     @api.response(200, "List of places retrieved successfully")
-    @jwt_required()
     def get(self):
         """Retrieve a list of all places"""
         places = facade.get_all_places()

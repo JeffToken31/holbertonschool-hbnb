@@ -69,7 +69,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!token) {
             loginLink.style.display = 'block';
-        
+            try {
+                const placeId = getPlaceIdFromURL();
+                console.log(placeId);
+                const place = await fetchPlaceDetails(token, placeId);
+                const reviews = await fetchReviewDetails(token, placeId);
+                displayPlaceDetails(place);
+                displayReviews(reviews);
+            } catch (error) {
+                console.error("error: ", error);
+                throw error;
+            }
             addReviewSection.innerHTML = `
             <p>You must to be logged to leaves a review.</p>
             <a href="login.html" class="details-button">Login</a>
@@ -104,8 +114,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok) {
                 alert('Review submitted successfully!');
-                reviewForm.reset();
-                windows.reload();
+                window.location.href = 'index.html';
+
             } else {
                 const errorData = await response.json();
                 alert(`Failed to submit review: ${errorData.error || 'Unknown error'}`);
