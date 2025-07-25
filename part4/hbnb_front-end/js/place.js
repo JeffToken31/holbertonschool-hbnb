@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const cardPlace = document.createElement('div');
         cardPlace.classList.add("place-info");
         cardPlace.innerHTML = `
+            <img src="images/places/${place.id}.jpg" alt="${place.title}" class="places-img-big">
             <p class="host"><strong>Host:</strong> ${place.owner.first_name} ${place.owner.last_name}</p>
             <p class="place-price"><strong>Price per night:</strong> ${place.price}$</p>
             <p class="place-description"><strong>Description:</strong> ${place.description}</p>

@@ -2,10 +2,14 @@ import { fetchPlaces } from './api.js';
 import { getCookie, logoutUser} from './utils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-
+  const loader = document.getElementById('loader');
   const divPlaces = document.getElementById('places-list');
   const priceFilter = document.getElementById('price-filter');
   const priceLabel = document.querySelector('label[for="price-filter"]');
+
+  setTimeout(() => {
+    loader.style.display = 'none';
+  }, 3500);
 
   checkAuthentication();
 
@@ -21,9 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
         card.classList.add("place-card");
         card.setAttribute('data-price', place.price);
         card.innerHTML = `
-                <h3 class="place-title">${place.title}</h3>
-                <p class="place-price"><strong>Price per night: </strong>${place.price}$</p>
-                <a href="place.html?id=${place.id}" class="details-button">View Details</a>
+          <img src="images/places/${place.id}.jpg" alt="${place.title}" class="places-img">
+          <h3 class="place-title">${place.title}</h3>
+          <p class="place-price"><strong>Price per night: </strong>${place.price}$</p>
+          <a href="place.html?id=${place.id}" class="details-button">View Details</a>
                 `;
         divPlaces.appendChild(card);
       })
