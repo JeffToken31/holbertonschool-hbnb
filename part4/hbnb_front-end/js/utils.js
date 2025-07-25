@@ -12,3 +12,8 @@
     });
     return cookies;
   }
+
+  export function logoutUser() {
+    document.cookie = 'token=; Max-Age=0; path=/;';
+    window.location.href = 'index.html';
+  }

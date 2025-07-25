@@ -283,7 +283,3 @@ button:hover {
 .place-amenities li {
   list-style-type: none;
 }
-
-#logout-link {
-  display: none;
-}

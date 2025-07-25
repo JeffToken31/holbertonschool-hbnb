@@ -1,5 +1,5 @@
 import { fetchPlaces } from './api.js';
-import { getCookie } from './utils.js';
+import { getCookie, logoutUser} from './utils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -45,10 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
         throw error;
       }
       loginLink.style.display = 'block';
+      logoutlink.style.display = 'none';
+
         return;
     } else {
-      loginLink.style.display = 'none';
       logoutlink.style.display = 'block';
+      loginLink.style.display = 'none';
       
       // Fetch places data if the user is authenticated
       try {
@@ -105,5 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const logoutLink = document.getElementById('logout-link');
   logoutLink.addEventListener('click', (event) => {
     event.preventDefault();
-    document.cookie
+    logoutUser();
+  });
+
 })

@@ -1,4 +1,4 @@
-import { getCookie } from "./utils.js";
+import { getCookie, logoutUser} from './utils.js';
 import { fetchPlaceDetails, submitReview, fetchReviewDetails } from "./api.js";
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         if (!token) {
+            logoutlink.style.display = 'none';
             loginLink.style.display = 'block';
             try {
                 const placeId = getPlaceIdFromURL();
@@ -133,5 +134,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         // Handle the response
     });
+  /* Logout button */
+  const logoutLink = document.getElementById('logout-link');
+  logoutLink.addEventListener('click', (event) => {
+    event.preventDefault();
+    logoutUser();
+  });
 
 })
