@@ -11,7 +11,7 @@ A pre-filled database is provided for instant testing, so the platform is ready 
 
 🔗 Learn more about the Back-end: [Readme.md](https://github.com/JeffToken31/holbertonschool-hbnb/blob/main/part4/hbnb_back-end/README.md)
 
-🔗 Learn more about the Front-end: [Readme.md](https://github.com/JeffToken31/holbertonschool-hbnb/blob/main/part4/hbnb_front-end/README.md)
+🔗 Learn more about the Front-end: [Readme.md](https://github.com/JeffToken31/holbertonschool-hbnb/blob/jeff/part4/hbnb_front-end/README.md)
 
 ## ⭐ Features
 
