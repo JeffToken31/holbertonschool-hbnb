@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setTimeout(() => {
     loader.style.display = 'none';
-  }, 3500);
+  }, 1000);
 
   checkAuthentication();
 

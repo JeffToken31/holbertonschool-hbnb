@@ -46,10 +46,11 @@ document.addEventListener('DOMContentLoaded', () => {
         reviews.forEach(review => {
             const cardReview = document.createElement('div');
             cardReview.classList.add("review-card");
+            const star = "★".repeat(review.rating);
             cardReview.innerHTML = `
                 <p class="reviewer"><strong>By:</strong> ${review.user.first_name} ${review.user.last_name}</p>
                 <p class="comment">${review.text}</p>
-                <p class="rating"><strong>Rating:</strong> ${review.rating}</p>
+                <p class="rating"><strong>Rating:</strong> ${star}</p>
             `;
             reviewsSection.appendChild(cardReview);
         });
@@ -116,7 +117,8 @@ document.addEventListener('DOMContentLoaded', () => {
     reviewForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         const reviewText = document.getElementById('review').value;
-        const ratingDatas = document.getElementById('rating').value;
+        const ratingDatas = document.querySelector('input[name="rating"]:checked').value;
+
         // Get review text from form
         const token = getCookie('token');
     

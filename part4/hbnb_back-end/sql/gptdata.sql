@@ -1,7 +1,7 @@
--- Remplissage initial de la base developpement.db
--- A exécuter avec : sqlite3 developpement.db < seed.sql
 
--- Vider les tables avant de remplir (pour éviter les doublons)
+-- exucut with: sqlite3 developpement.db < seed.sql
+
+-- Delete all datas
 DELETE FROM reviews;
 DELETE FROM place_amenity;
 DELETE FROM amenities;
@@ -11,22 +11,21 @@ DELETE FROM users;
 -- =========================================
 -- 1. Insert users
 -- Passwords: admin1234 (admin) / user1234 (regular users)
--- Pre-generated bcrypt hashes
 -- =========================================
 INSERT INTO users (id, first_name, last_name, email, _password, is_admin, created_at, updated_at) VALUES
-('3f1e7d3c-6f91-4ec9-9c88-25c2096379d3', 'Admin', 'User', 'admin@example.com', '$2b$12$Bo8b4ahBSEtRXKJBQmymMuM/PEpL5RU4juP9VHH4awgoWr8VTD1d.', 1, DATETIME('now'), DATETIME('now')),
-('4aef7b8d-1f4c-44a4-a936-8a00c156c7a1', 'Alice', 'Dupont', 'alice@example.com', '$2b$12$e1qs5bSZIVgeOum9YTxUhefyGTP1E6CrdVArfETvnX83RRu9JdEU6', 0, DATETIME('now'), DATETIME('now')),
-('bbf83025-98d1-4e46-8ca3-7c2730f0922e', 'Bob', 'Martin', 'bob@example.com', '$2b$12$e1qs5bSZIVgeOum9YTxUhefyGTP1E6CrdVArfETvnX83RRu9JdEU6', 0, DATETIME('now'), DATETIME('now')),
-('ca03e772-3622-45c8-bac2-b9833496ca4f', 'Claire', 'Moreau', 'claire@example.com', '$2b$12$e1qs5bSZIVgeOum9YTxUhefyGTP1E6CrdVArfETvnX83RRu9JdEU6', 0, DATETIME('now'), DATETIME('now')),
-('37a7d3c0-cd0b-4d6f-bb5b-4f3bc2d6d0aa', 'David', 'Lemoine', 'david@example.com', '$2b$12$e1qs5bSZIVgeOum9YTxUhefyGTP1E6CrdVArfETvnX83RRu9JdEU6', 0, DATETIME('now'), DATETIME('now')),
-('9b5fc19b-f5d1-4d8f-9e9a-cd688bf128f3', 'Emma', 'Petit', 'emma@example.com', '$2b$12$e1qs5bSZIVgeOum9YTxUhefyGTP1E6CrdVArfETvnX83RRu9JdEU6', 0, DATETIME('now'), DATETIME('now')),
-('d2769c2e-bfc6-4d98-b9fc-27a7dfc9a215', 'Franck', 'Roche', 'franck@example.com', '$2b$12$e1qs5bSZIVgeOum9YTxUhefyGTP1E6CrdVArfETvnX83RRu9JdEU6', 0, DATETIME('now'), DATETIME('now')),
-('61e78d96-54e0-4184-9bfc-fbc312f278db', 'Isabelle', 'Durand', 'isabelle@example.com', '$2b$12$e1qs5bSZIVgeOum9YTxUhefyGTP1E6CrdVArfETvnX83RRu9JdEU6', 0, DATETIME('now'), DATETIME('now')),
-('e07eaf1e-97e2-4b07-b4a8-19e1c63edc87', 'Julien', 'Perrot', 'julien@example.com', '$2b$12$e1qs5bSZIVgeOum9YTxUhefyGTP1E6CrdVArfETvnX83RRu9JdEU6', 0, DATETIME('now'), DATETIME('now')),
-('5f8d6f12-09e0-429a-bde1-c86a8e145e3a', 'Karine', 'Blanc', 'karine@example.com', '$2b$12$e1qs5bSZIVgeOum9YTxUhefyGTP1E6CrdVArfETvnX83RRu9JdEU6', 0, DATETIME('now'), DATETIME('now'));
+('3f1e7d3c-6f91-4ec9-9c88-25c2096379d3', 'Admin', 'User', 'admin@hbnb.io', '$2b$12$Bo8b4ahBSEtRXKJBQmymMuM/PEpL5RU4juP9VHH4awgoWr8VTD1d.', 1, DATETIME('now'), DATETIME('now')),
+('4aef7b8d-1f4c-44a4-a936-8a00c156c7a1', 'Alice', 'Dupont', 'alice@hbnb.io', '$2b$12$e1qs5bSZIVgeOum9YTxUhefyGTP1E6CrdVArfETvnX83RRu9JdEU6', 0, DATETIME('now'), DATETIME('now')),
+('bbf83025-98d1-4e46-8ca3-7c2730f0922e', 'Bob', 'Martin', 'bob@hbnb.io', '$2b$12$e1qs5bSZIVgeOum9YTxUhefyGTP1E6CrdVArfETvnX83RRu9JdEU6', 0, DATETIME('now'), DATETIME('now')),
+('ca03e772-3622-45c8-bac2-b9833496ca4f', 'Claire', 'Moreau', 'claire@hbnb.io', '$2b$12$e1qs5bSZIVgeOum9YTxUhefyGTP1E6CrdVArfETvnX83RRu9JdEU6', 0, DATETIME('now'), DATETIME('now')),
+('37a7d3c0-cd0b-4d6f-bb5b-4f3bc2d6d0aa', 'David', 'Lemoine', 'david@hbnb.io', '$2b$12$e1qs5bSZIVgeOum9YTxUhefyGTP1E6CrdVArfETvnX83RRu9JdEU6', 0, DATETIME('now'), DATETIME('now')),
+('9b5fc19b-f5d1-4d8f-9e9a-cd688bf128f3', 'Emma', 'Petit', 'emma@hbnb.io', '$2b$12$e1qs5bSZIVgeOum9YTxUhefyGTP1E6CrdVArfETvnX83RRu9JdEU6', 0, DATETIME('now'), DATETIME('now')),
+('d2769c2e-bfc6-4d98-b9fc-27a7dfc9a215', 'Franck', 'Roche', 'franck@hbnb.io', '$2b$12$e1qs5bSZIVgeOum9YTxUhefyGTP1E6CrdVArfETvnX83RRu9JdEU6', 0, DATETIME('now'), DATETIME('now')),
+('61e78d96-54e0-4184-9bfc-fbc312f278db', 'Isabelle', 'Durand', 'isabelle@hbnb.io', '$2b$12$e1qs5bSZIVgeOum9YTxUhefyGTP1E6CrdVArfETvnX83RRu9JdEU6', 0, DATETIME('now'), DATETIME('now')),
+('e07eaf1e-97e2-4b07-b4a8-19e1c63edc87', 'Julien', 'Perrot', 'julien@hbnb.io', '$2b$12$e1qs5bSZIVgeOum9YTxUhefyGTP1E6CrdVArfETvnX83RRu9JdEU6', 0, DATETIME('now'), DATETIME('now')),
+('5f8d6f12-09e0-429a-bde1-c86a8e145e3a', 'Karine', 'Blanc', 'karine@hbnb.io', '$2b$12$e1qs5bSZIVgeOum9YTxUhefyGTP1E6CrdVArfETvnX83RRu9JdEU6', 0, DATETIME('now'), DATETIME('now'));
 
 -- =========================================
--- 2. Insert places (10 total)
+-- 2. Place insertion
 -- =========================================
 INSERT INTO places (id, title, price, latitude, longitude, owner_id, description, created_at, updated_at) VALUES
 ('6b2e54d8-8327-4f53-9f40-5b6bc796eb3d', 'Cozy downtown apartment', 75, 48.8566, 2.3522, '4aef7b8d-1f4c-44a4-a936-8a00c156c7a1', 'A comfortable apartment in Paris.', DATETIME('now'), DATETIME('now')),
@@ -40,7 +39,7 @@ INSERT INTO places (id, title, price, latitude, longitude, owner_id, description
 ('a4c50ebd-37a0-4c70-9d6e-f4f9b721f8a3', 'Tiny house', 50, 44.9334, 4.8924, '5f8d6f12-09e0-429a-bde1-c86a8e145e3a', 'Small eco-friendly house.', DATETIME('now'), DATETIME('now')),
 ('d32826f8-9edb-4f6c-bb1a-34a2743f8b30', 'Luxury penthouse', 500, 48.1173, -1.6778, 'bbf83025-98d1-4e46-8ca3-7c2730f0922e', 'Penthouse with panoramic view.', DATETIME('now'), DATETIME('now'));
 -- =========================================
--- 3. Insertion des amenities
+-- 3. Amenities insertion 
 -- =========================================
 INSERT INTO amenities (id, name, created_at, updated_at) VALUES
 ('7bcf1b9a-68b9-4c58-8d0a-3b20a16287bf', 'WiFi', DATETIME('now'), DATETIME('now')),
@@ -51,7 +50,7 @@ INSERT INTO amenities (id, name, created_at, updated_at) VALUES
 ('5eaf90f3-f5a2-4d14-8a0e-bec38a7592aa', 'Equipped kitchen', DATETIME('now'), DATETIME('now'));
 
 -- =========================================
--- 4. Liaisons places - amenities (2-3 par place)
+-- 4. Connexion places - amenities
 -- =========================================
 INSERT INTO place_amenity (place_id, amenity_id) VALUES
 ('6b2e54d8-8327-4f53-9f40-5b6bc796eb3d', '7bcf1b9a-68b9-4c58-8d0a-3b20a16287bf'), -- WiFi
@@ -82,7 +81,7 @@ INSERT INTO place_amenity (place_id, amenity_id) VALUES
 ('a4c50ebd-37a0-4c70-9d6e-f4f9b721f8a3', '251b1b63-52a6-41ca-bd12-fb91d3f7d5f0'); -- Clim
 
 -- =========================================
--- 5. Insertion des reviews
+-- 5. Review insertion
 -- =========================================
 INSERT INTO reviews (id, user_id, place_id, rating, text, created_at, updated_at) VALUES
 ('52e2c9b6-4ed3-4f10-9d59-8c3c7b1f7760', 'bbf83025-98d1-4e46-8ca3-7c2730f0922e', '6b2e54d8-8327-4f53-9f40-5b6bc796eb3d', 5, 'Great stay, I recommend!', DATETIME('now'), DATETIME('now')),

@@ -46,16 +46,23 @@
                 <h2>Add a Review</h2>
                 <label for="review">Your Review:</label>
                 <textarea id="review" name="review" required></textarea>
-                <label for="rating">Rating:</label>
-                <select id="rating" name="rating" required>
-                    <!-- Options for rating -->
-                    <option value="">Select</option>
-                    <option value="1">1 Star</option>
-                    <option value="2">2 Stars</option>
-                    <option value="3">3 Stars</option>
-                    <option value="4">4 Stars</option>
-                    <option value="5">5 Stars</option>
-                </select>
+                <fieldset id="rating">
+                    <legend>Rating:</legend>
+                    <input type="radio" id="star5" name="rating" value="5" required>
+                    <label for="star5" title="5 stars">★</label>
+
+                    <input type="radio" id="star4" name="rating" value="4">
+                    <label for="star4" title="4 stars">★</label>
+
+                    <input type="radio" id="star3" name="rating" value="3">
+                    <label for="star3" title="3 stars">★</label>
+
+                    <input type="radio" id="star2" name="rating" value="2">
+                    <label for="star2" title="2 stars">★</label>
+
+                    <input type="radio" id="star1" name="rating" value="1">
+                    <label for="star1" title="1 star">★</label>
+                </fieldset>
                 <button type="submit">Submit Review</button>
             </form>
         </section>
