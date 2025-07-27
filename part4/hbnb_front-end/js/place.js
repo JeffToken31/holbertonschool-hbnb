@@ -20,16 +20,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         // Create elements to display the place details (name, description, price, amenities and reviews)
         placeDetails.innerHTML = `
-            <h3 class="place-title">${place.title}</h3>
+            <h2 class="placeID-title">${place.title}</h2>
         `
         const cardPlace = document.createElement('div');
         cardPlace.classList.add("place-info");
         cardPlace.innerHTML = `
             <img src="images/places/${place.id}.jpg" alt="${place.title}" class="places-img-big">
+            <div class="place-text">
             <p class="host"><strong>Host:</strong> ${place.owner.first_name} ${place.owner.last_name}</p>
             <p class="place-price"><strong>Price per night:</strong> ${place.price}$</p>
             <p class="place-description"><strong>Description:</strong> ${place.description}</p>
-            <div class="place-amenities"><strong>Amenities:</strong> ${amenityList}</div>    
+            <div class="place-amenities"><strong>Amenities:</strong> ${amenityList}</div>
+            </div>   
         `
         // Append the created elements to the place details section
         placeDetails.appendChild(cardPlace)

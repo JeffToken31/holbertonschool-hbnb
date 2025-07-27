@@ -169,11 +169,12 @@ nav a:hover {
 }
 
 .place-card {
-  width: 280px;
-  min-height: 280px;
+  width: 25vw;
+  height: 53vh;
   display: flex;
   flex-direction: column;
   margin: 0;
+  color: var(--color-text);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -185,7 +186,7 @@ nav a:hover {
 .place-card a {
   border: 1px solid #ddd;
   border-radius: 5px;
-  margin-top: auto;
+  margin-top: 1rem;
   background-color: var(--color-primary);
   color: var(--color-bg);
   text-align: center;
@@ -198,6 +199,18 @@ nav a:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   background-color: var(--color-primary-hover);
 }
+
+.place-title {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  margin-top: 1rem;
+}
+
+.placeID-title {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+}
+
 /* Page place */
 .place-info {
   border: 1px solid #ddd;
@@ -206,6 +219,10 @@ nav a:hover {
   background-color: var(--color-bg2);
   margin: 30px;
   padding: 40px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .comment {
   font-family: var(--font-serif);
@@ -234,7 +251,7 @@ button {
   box-shadow: var(--box-shadow);
   border-radius: 8px;
   margin-top: 10px;
-  padding: 5px;
+  padding: 10px;
   background-color: var(--color-primary);
   color: var(--color-bg2);
   font-weight: 700;
@@ -242,7 +259,7 @@ button {
 
 button:hover {
   background-color: var(--color-primary-hover);
-  transform: translateY(-1px);
+  transform: translateY(-1.5px);
 }
 
 /* Login Page */
@@ -279,16 +296,31 @@ button:hover {
   }
 }
 
-.place-amenities li {
+.place-amenities ul {
   list-style-type: none;
+  padding: 0;
 }
 
 .places-img {
   max-width: 90%;
-  height: 70%;
+  height: 65%;
   display: block;
   margin: 0 auto;
   border-radius: 8px;
+}
+
+.places-img-big {
+  width: 50%;
+  margin: 0 auto;
+  border-radius: 8px;
+}
+
+.place-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: baseline;
+  gap: 2rem;
+  align-items: baseline;
 }
 
 #loader {
@@ -340,4 +372,8 @@ button:hover {
     --color1: var(--color-bg2);
     --color2: var(--color-primary);
   }
+}
+
+.host {
+  margin-top: 5vh;
 }
