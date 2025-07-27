@@ -102,7 +102,7 @@ All users (except the admin) share the same password.
 
 ## 👁️ Overview
 
-You can view the project structure by running: `tree``:
+You can view the project structure by running: `tree`:
 
 ```bash
 $ tree
