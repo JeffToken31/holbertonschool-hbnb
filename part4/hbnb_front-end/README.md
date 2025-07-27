@@ -15,7 +15,7 @@ This part of the project focuses on:
 - Dynamically fetching and displaying data from the backend
 - Practicing clean code structure with modular files
 
-For more details about the overall project, check the [Main README](https://github.com/JeffToken31/holbertonschool-hbnb/blob/main/part4/README.md).  
+For more details about the overall project, check the [Main README](https://github.com/JeffToken31/holbertonschool-hbnb/blob/jeff/part4/README.md).  
 To explore the backend side, see the [Backend README](https://github.com/JeffToken31/holbertonschool-hbnb/blob/main/part4/hbnb_back-end/README.md).
 
 ## ⭐ Features
