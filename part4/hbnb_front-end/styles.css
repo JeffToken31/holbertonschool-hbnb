@@ -152,7 +152,29 @@ nav a:hover {
 }
 
 /* Instruction, to check */
-.place-card,
+.place-card {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: var(--box-shadow);
+  background-color: var(--color-bg);
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+#add-review {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#reviews {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+  grid-auto-rows: minmax(100px, auto);
+}
+
 .review-card {
   margin: 20px;
   padding: 20px;
