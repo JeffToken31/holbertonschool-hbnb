@@ -50,7 +50,6 @@ class PlaceList(Resource):
         return new_place.to_dict(), 201
 
     @api.response(200, "List of places retrieved successfully")
-    @jwt_required()
     def get(self):
         """Retrieve a list of all places"""
         places = facade.get_all_places()
@@ -118,7 +117,7 @@ class PlaceResource(Resource):
         if not place:
             return {'error': 'Place not found'}, 404
 
-        if place.user.id != current_user["id"] and not is_admin:
+        if place.owner_id != current_user["id"] and not is_admin:
             return {'error': 'Unauthorized action'}, 403
 
         facade.delete_place(place_id)

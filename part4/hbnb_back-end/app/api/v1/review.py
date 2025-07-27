@@ -23,6 +23,7 @@ class ReviewList(Resource):
     def post(self):
         """Register a new review"""
         user_review = api.payload
+        print(user_review)
         current_user = get_jwt_identity()
         current_user_id = current_user["id"]
         place = facade.get_place(user_review["place"])
@@ -35,7 +36,7 @@ class ReviewList(Resource):
         for review in place.reviews:
             if review.user.id == current_user_id:
                 return {'error': 'You have already reviewed this place.'}, 400
-
+        user_review['user'] = current_user_id
         try:
             new_review = facade.create_review(user_review)
         except (TypeError, ValueError) as e:

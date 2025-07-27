@@ -10,15 +10,15 @@ This project is a minimalist web backend for a simplified HBNB platform, built u
 
 2. (Optional) Create a virtual environment.`python -m venv venv`
 
-    2.2 To activate on Linux/Mac: `source venv/bin/activate`
+   2.2 To activate on Linux/Mac: `source venv/bin/activate`
 
-    2.3 To activate on Windows: `venv\Scripts\activate`
+   2.3 To activate on Windows: `venv\Scripts\activate`
 
 3. Install the dependencies with `pip install -r requirements.txt`.
 
 4. Run the app using `python run.py`.
 
-    By default, the server starts at `http://localhost:5000`.
+   By default, the server starts at `http://localhost:5000`.
 
 ---
 
@@ -28,7 +28,8 @@ This project is a minimalist web backend for a simplified HBNB platform, built u
 
 You can view the project structure by running: `tree``:
 
-```
+```bash
+$ tree
 .
 └── hbnb
     ├── README.md
@@ -73,7 +74,7 @@ You can view the project structure by running: `tree``:
 ### 📄 `README.md`
 
 - This file.
- It explains how the project is structured and how to run it.
+  It explains how the project is structured and how to run it.
 
 ### 📄 `run.py`
 
@@ -237,47 +238,47 @@ This code from facade.py tries to find a place by its ID. If no place is found, 
 
 ### 👤 Users
 
-| Method | Endpoint                | Description             |
-|--------|-------------------------|-------------------------|
-| GET    | /api/v1/users           | List all users          |
-| POST   | /api/v1/users           | Create a new user       |
-| GET    | /api/v1/users/<user_id> | Get user details by ID  |
-| PUT    | /api/v1/users/<user_id> | Modify user details     |
+| Method | Endpoint                | Description            |
+| ------ | ----------------------- | ---------------------- |
+| GET    | /api/v1/users           | List all users         |
+| POST   | /api/v1/users           | Create a new user      |
+| GET    | /api/v1/users/<user_id> | Get user details by ID |
+| PUT    | /api/v1/users/<user_id> | Modify user details    |
 
 ---
 
 ### 🏠 Places
 
-| Method | Endpoint                 | Description             |
-|--------|--------------------------|-------------------------|
-| GET    | /api/v1/places           | Get all places          |
-| POST   | /api/v1/places           | Add a new place         |
-| GET    | /api/v1/places/<place_id>| Get place details by ID |
-| PUT    | /api/v1/places/<place_id>| Update place details    |
+| Method | Endpoint                  | Description             |
+| ------ | ------------------------- | ----------------------- |
+| GET    | /api/v1/places            | Get all places          |
+| POST   | /api/v1/places            | Add a new place         |
+| GET    | /api/v1/places/<place_id> | Get place details by ID |
+| PUT    | /api/v1/places/<place_id> | Update place details    |
 
 ---
 
 ### ⭐ Reviews
 
-| Method | Endpoint                            | Description                        |
-|--------|-----------------------------------|----------------------------------|
+| Method | Endpoint                          | Description                       |
+| ------ | --------------------------------- | --------------------------------- |
 | GET    | /api/v1/reviews                   | List all reviews                  |
 | POST   | /api/v1/reviews                   | Submit a new review               |
 | GET    | /api/v1/reviews/<review_id>       | Get review details by ID          |
 | PUT    | /api/v1/reviews/<review_id>       | Update review details             |
 | DELETE | /api/v1/reviews/<review_id>       | Delete a review                   |
-| GET    | /api/v1/places/<place_id>/reviews | List reviews for a specific place|
+| GET    | /api/v1/places/<place_id>/reviews | List reviews for a specific place |
 
 ---
 
 ### 🚿 Amenities
 
-| Method | Endpoint                      | Description               |
-|--------|-------------------------------|---------------------------|
-| GET    | /api/v1/amenities            | List all amenities        |
-| POST   | /api/v1/amenities            | Add new amenity           |
-| GET    | /api/v1/amenities/<amenity_id> | Get amenity details by ID|
-| PUT    | /api/v1/amenities/<amenity_id> | Update amenity details   |
+| Method | Endpoint                       | Description               |
+| ------ | ------------------------------ | ------------------------- |
+| GET    | /api/v1/amenities              | List all amenities        |
+| POST   | /api/v1/amenities              | Add new amenity           |
+| GET    | /api/v1/amenities/<amenity_id> | Get amenity details by ID |
+| PUT    | /api/v1/amenities/<amenity_id> | Update amenity details    |
 
 ---
 
