@@ -1,5 +1,5 @@
-import { loginUser } from "./api.js";
-import { getCookie } from "./utils.js";
+import { loginUser } from './api.js';
+import { getCookie } from './utils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   checkAuthentication();
@@ -13,14 +13,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loginUser(email, password);
   });
-  
-  function checkAuthentication() {
+
+  function checkAuthentication () {
     const token = getCookie('token');
-  
+
     if (token) {
       alert('You are already logged in.');
       window.location.href = 'index.html';
-      return;
     }
   }
 });
